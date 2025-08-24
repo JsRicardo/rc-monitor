@@ -1,0 +1,64 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "rc-monitor",
+    "plugin-based",
+    "cross-platform",
+    "frontend",
+    "monitor",
+    "adapter",
+    "performance",
+    "behavior",
+    "utils",
+    "rollup",
+    "eslint",
+    "prettier",
+    "commitizen",
+    "commitlint",
+    "husky",
+    "lintstaged",
+    "typescript",
+    "tslib",
+    "pnpm",
+    "workspace",
+    "cspell"
+  ],
+  "ignoreWords": [
+    "devDependencies",
+    "packageManager",
+    "tsconfig",
+    "esm",
+    "cjs",
+    "index",
+    "src",
+    "dist"
+  ],
+  "ignorePaths": [
+    "node_modules",
+    "dist",
+    "build",
+    "coverage",
+    "*.log",
+    "*.min.js",
+    "package-lock.json",
+    "pnpm-lock.yaml"
+  ],
+  "dictionaries": [
+    "typescript",
+    "node",
+    "softwareTerms"
+  ],
+  "patterns": [
+    {
+      "name": "HTML Comments",
+      "pattern": "/<!--[\\s\\S]*?-->/",
+      "description": "Ignore HTML comments"
+    },
+    {
+      "name": "Code Blocks",
+      "pattern": "/```[\\s\\S]*?```/",
+      "description": "Ignore code blocks in markdown"
+    }
+  ]
+}

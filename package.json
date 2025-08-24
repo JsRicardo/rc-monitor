@@ -1,0 +1,48 @@
+{
+  "name": "rc-monitor",
+  "version": "1.0.0",
+  "description": "A cross-platform plugin-based frontend monitoring tool",
+  "scripts": {
+    "build": "pnpm -r run build",
+    "dev": "pnpm -r run dev",
+    "test": "pnpm -r run test",
+    "clean": "pnpm -r run clean",
+    "lint": "eslint **/*.ts",
+    "lint:fix": "eslint **/*.ts --fix",
+    "format": "prettier --write packages/**/src/**/*.{ts,js,json,md}",
+    "spellcheck": "cspell --no-progress --no-summary **/*.ts",
+    "spellcheck:fix": "cspell --no-progress --no-summary --fix **/*.ts",
+    "typecheck": "tsc --noEmit",
+    "commit": "cz",
+    "prepare": "husky install"
+  },
+  "keywords": [
+    "monitoring",
+    "frontend",
+    "cross-platform",
+    "plugin",
+    "react",
+    "vue"
+  ],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.14.0",
+  "type": "module",
+  "devDependencies": {
+    "@commitlint/cli": "^17.0.0",
+    "@commitlint/config-conventional": "^17.0.0",
+    "@types/node": "^24.3.0",
+    "@typescript-eslint/eslint-plugin": "^8.40.0",
+    "@typescript-eslint/parser": "^8.40.0",
+    "commitizen": "^4.2.0",
+    "cspell": "^8.0.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^8.45.0",
+    "eslint-plugin-import": "^2.32.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.3.0",
+    "prettier": "^2.8.0",
+    "typescript": "^5.0.0",
+    "typescript-eslint": "^8.40.0"
+  }
+}
