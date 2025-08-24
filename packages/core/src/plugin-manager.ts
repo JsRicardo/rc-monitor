@@ -42,7 +42,7 @@ export class DefaultPluginManager implements PluginManager {
    * 卸载所有插件
    */
   unuseAllPlugin(): void {
-    for (const [name, plugin] of this.plugins) {
+    for (const [, plugin] of this.plugins) {
       if (plugin.uninstall) {
         plugin.uninstall();
       }

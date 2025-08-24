@@ -1,5 +1,5 @@
-import { Monitor } from '../monitor';
-import { MonitorConfig } from '../types';
+import { Monitor } from '../src/monitor';
+import { MonitorConfig } from '../src/types';
 
 describe('Monitor', () => {
   const mockConfig: MonitorConfig = {

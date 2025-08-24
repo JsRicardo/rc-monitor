@@ -43,7 +43,7 @@ export class DataQueue<T> {
     if (this.queue.length >= this.maxSize) {
       this.queue.shift(); // 移除最旧的数据
     }
-    
+
     this.queue.push(item);
     return true;
   }

@@ -1,0 +1,13 @@
+src/
+__tests__/
+*.ts
+*.tsx
+*.map
+.DS_Store
+node_modules/
+.npmignore
+.gitignore
+.editorconfig
+.eslintrc
+.prettierrc
+*.log

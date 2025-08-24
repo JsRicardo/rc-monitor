@@ -4,7 +4,16 @@
  */
 
 export { Monitor } from './monitor';
-export type { MonitorConfig, Plugin, ReportData } from './types';
+export type {
+  MonitorConfig,
+  Plugin,
+  ReportData,
+  JsErrorData,
+  PromiseRejectionData,
+  ResourceErrorData,
+  PerformanceData,
+  UserBehaviorData,
+} from './types';
 export { FetchReportService } from './report-service';
 export { DefaultPluginManager } from './plugin-manager';
 export { createLogger, DataQueue } from './utils';

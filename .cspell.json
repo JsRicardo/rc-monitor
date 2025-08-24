@@ -2,27 +2,31 @@
   "version": "0.2",
   "language": "en",
   "words": [
-    "rc-monitor",
-    "plugin-based",
-    "cross-platform",
-    "frontend",
-    "monitor",
     "adapter",
-    "performance",
     "behavior",
-    "utils",
-    "rollup",
-    "eslint",
-    "prettier",
     "commitizen",
     "commitlint",
+    "cross-platform",
+    "cspell",
+    "eslint",
+    "frontend",
     "husky",
     "lintstaged",
-    "typescript",
-    "tslib",
+    "longtask",
+    "monitor",
+    "performance",
+    "plugin-based",
     "pnpm",
-    "workspace",
-    "cspell"
+    "prettier",
+    "rc-monitor",
+    "rollup",
+    "tslib",
+    "unuse",
+    "unuseAllPlugin",
+    "typescript",
+    "utils",
+    "WEAPP",
+    "workspace"
   ],
   "ignoreWords": [
     "devDependencies",
@@ -44,11 +48,7 @@
     "package-lock.json",
     "pnpm-lock.yaml"
   ],
-  "dictionaries": [
-    "typescript",
-    "node",
-    "softwareTerms"
-  ],
+  "dictionaries": ["typescript", "node", "softwareTerms"],
   "patterns": [
     {
       "name": "HTML Comments",

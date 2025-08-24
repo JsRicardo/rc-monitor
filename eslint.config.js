@@ -3,7 +3,7 @@ import eslintPluginImport from 'eslint-plugin-import';
 
 export default tseslint.config(
   {
-    ignores: ['**/dist/**', '**/node_modules/**']
+    ignores: ['**/dist/**', '**/node_modules/**'],
   },
   {
     files: ['packages/**/src/**/*.ts'],
@@ -11,12 +11,12 @@ export default tseslint.config(
       parser: tseslint.parser,
       parserOptions: {
         project: './tsconfig.json',
-        sourceType: 'module'
-      }
+        sourceType: 'module',
+      },
     },
     plugins: {
       '@typescript-eslint': tseslint.plugin,
-      'import': eslintPluginImport
+      import: eslintPluginImport,
     },
     rules: {
       ...tseslint.configs.recommended.rules,
@@ -32,19 +32,19 @@ export default tseslint.config(
             'sibling',
             'index',
             'object',
-            'type'
+            'type',
           ],
           'newlines-between': 'always',
           alphabetize: {
             order: 'asc',
-            caseInsensitive: true
-          }
-        }
+            caseInsensitive: true,
+          },
+        },
       ],
       '@typescript-eslint/no-unused-vars': 'error',
-      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/explicit-function-return-type': 'off',
-      '@typescript-eslint/no-empty-interface': 'warn'
-    }
+      '@typescript-eslint/no-empty-interface': 'warn',
+    },
   }
 );

@@ -3,9 +3,9 @@
  * 负责数据收集、处理、上报和插件管理
  */
 
-import { MonitorConfig, Plugin, ReportData } from './types';
-import { FetchReportService } from './report-service';
 import { DefaultPluginManager } from './plugin-manager';
+import { FetchReportService } from './report-service';
+import { MonitorConfig, Plugin, ReportData } from './types';
 import { createLogger, DataQueue } from './utils';
 
 export class Monitor {
@@ -81,6 +81,8 @@ export class Monitor {
    * @param data 数据内容
    */
   public report(type: string, data: any): void {
+    this.log('上报数据', type);
+
     if (!this.initialized) {
       this.log('Monitor not initialized, please call init() first');
       return;
@@ -207,7 +209,7 @@ export class Monitor {
    */
   private static isSameConfig(config1: MonitorConfig | null, config2: MonitorConfig): boolean {
     if (!config1 || !config2) return false;
-    
+
     return (
       config1.endpoint === config2.endpoint &&
       config1.appId === config2.appId &&

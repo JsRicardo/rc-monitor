@@ -39,7 +39,7 @@ export class FetchReportService implements ReportService {
         body: JSON.stringify({
           appId: this.appId,
           data: data,
-          timestamp: Date.now()
+          timestamp: Date.now(),
         }),
       });
 

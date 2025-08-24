@@ -17,10 +17,13 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "removeComments": false,
+    "jsx": "preserve",
     "lib": ["es2016", "dom"],
     "types": ["node", "jest"],
     "rootDir": ".",
-    "paths": {},
+    "isolatedDeclarations": true,
     "composite": true
-  }
+  },
+  "include": ["packages/global.d.ts", "packages/*/src/**/*", "scripts/*"],
+  "exclude": ["**/*.test.ts"]
 }
