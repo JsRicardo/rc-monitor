@@ -16,6 +16,8 @@ export interface MonitorConfig {
   maxCacheSize?: number;
   /** 是否启用调试模式 */
   debug?: boolean;
+  /** 数据格式自定义函数 */
+  dataFormatter?: (type: string, data: any) => any;
 }
 
 export interface Plugin {
@@ -51,3 +53,13 @@ export interface PluginManager {
   /** 卸载所有插件 */
   unuseAllPlugin(): void;
 }
+
+export const REPORT_TYPE = {
+  JS_ERROR: 'js-error',
+  PROMISE_REJECTION: 'promise-rejection',
+  RESOURCE_ERROR: 'resource-error',
+  PERFORMANCE: 'performance',
+  USER_BEHAVIOR: 'user-behavior',
+} as const;
+
+export type ReportType = (typeof REPORT_TYPE)[keyof typeof REPORT_TYPE];

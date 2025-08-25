@@ -1,8 +1,6 @@
-import { Plugin, Monitor } from '@rc-monitor/core';
+import { Plugin, Monitor, REPORT_TYPE } from '@rc-monitor/core';
 import { PLUGIN_NAMES } from '@rc-monitor/platform';
 import { createJsErrorData } from '@rc-monitor/utils';
-
-import { JS_ERROR_TYPE } from '../../types';
 
 export class WeappErrorPlugin implements Plugin {
   name = PLUGIN_NAMES.WEAPP_ERROR;
@@ -21,14 +19,14 @@ export class WeappErrorPlugin implements Plugin {
 
     // 捕获JavaScript运行时错误
     this.errorHandler = (error: Error) => {
-      const errorData = createJsErrorData(error, JS_ERROR_TYPE.JS_ERROR);
-      monitor.report(JS_ERROR_TYPE.JS_ERROR, errorData);
+      const errorData = createJsErrorData(error, REPORT_TYPE.JS_ERROR);
+      monitor.report(REPORT_TYPE.JS_ERROR, errorData);
     };
 
     // 捕获未处理的Promise拒绝
     this.rejectionHandler = (error: any) => {
-      const errorData = createJsErrorData(error, JS_ERROR_TYPE.PROMISE_REJECTION);
-      monitor.report(JS_ERROR_TYPE.PROMISE_REJECTION, errorData);
+      const errorData = createJsErrorData(error, REPORT_TYPE.PROMISE_REJECTION);
+      monitor.report(REPORT_TYPE.PROMISE_REJECTION, errorData);
     };
 
     // 注册事件监听

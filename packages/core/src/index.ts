@@ -4,7 +4,9 @@
  */
 
 export { Monitor } from './monitor';
-export type { MonitorConfig, Plugin, ReportData } from './types';
+export type { MonitorConfig, Plugin, ReportData, ReportType } from './types';
+export { REPORT_TYPE } from './types';
 export { FetchReportService } from './report-service';
 export { DefaultPluginManager } from './plugin-manager';
-export { createLogger, DataQueue } from './utils';
+export { DataQueue } from './data-queue';
+export { createLogger } from './utils';

@@ -3,10 +3,11 @@
  * 负责数据收集、处理、上报和插件管理
  */
 
+import { DataQueue } from './data-queue';
 import { DefaultPluginManager } from './plugin-manager';
 import { FetchReportService } from './report-service';
-import { MonitorConfig, Plugin, ReportData } from './types';
-import { createLogger, DataQueue } from './utils';
+import { MonitorConfig, Plugin, ReportData, ReportType } from './types';
+import { createLogger } from './utils';
 
 export class Monitor {
   /** 配置信息 */
@@ -82,7 +83,7 @@ export class Monitor {
    * @param type 数据类型
    * @param data 数据内容
    */
-  public report(type: string, data: any): void {
+  public report(type: ReportType, data: any): void {
     this.log('上报数据', type);
 
     if (!this.initialized) {
@@ -90,9 +91,11 @@ export class Monitor {
       return;
     }
 
+    const formattedData = this.config.dataFormatter?.(type, data) || data;
+
     const reportData: ReportData = {
       type,
-      data,
+      data: formattedData,
       timestamp: Date.now(),
       appId: this.config.appId,
     };
