@@ -2,7 +2,7 @@
 
 import { execSync } from 'child_process';
 
-const packages = ['core', 'plugins', 'utils', 'platform'];
+const packages = ['core', 'plugins', 'utils', 'platform', 'rc-monitor'];
 
 function buildPackage(pkgName) {
   console.log(`Building ${pkgName}...`);

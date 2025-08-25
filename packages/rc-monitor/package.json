@@ -1,28 +1,28 @@
 {
-  "name": "@rc-monitor/plugin",
+  "name": "@rc-monitor/rc-monitor",
   "version": "0.0.1",
-  "description": "监控SDK核心模块 插件模块",
+  "description": "监控SDK核心模块 - 主包",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "scripts": {},
   "keywords": [
     "monitor",
     "sdk",
     "performance",
     "error",
-    "analytics"
+    "analytics",
+    "rc-monitor"
   ],
   "author": "Js Ricardo",
   "license": "MIT",
   "packageManager": "pnpm@10.14.0",
   "dependencies": {
     "@rc-monitor/core": "file:../core",
+    "@rc-monitor/plugins": "file:../plugins",
     "@rc-monitor/utils": "file:../utils",
     "@rc-monitor/platform": "file:../platform"
   }

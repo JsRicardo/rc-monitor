@@ -44,13 +44,15 @@ export class Monitor {
     this.reportService = new FetchReportService(this.config.endpoint, this.config.appId);
     this.dataQueue = new DataQueue<ReportData>(this.config.maxCacheSize);
     this.log = createLogger(this.config.debug ?? false, 'Monitor');
+
+    this.init();
   }
 
   /**
    * 初始化监控SDK
    * 启动数据上报定时器
    */
-  public init(): void {
+  private init(): void {
     if (this.initialized) {
       this.log('Monitor already initialized');
       return;

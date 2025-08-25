@@ -2,7 +2,7 @@
 
 import { execSync, spawn } from 'child_process';
 
-const packages = ['core', 'plugins', 'utils', 'platform'];
+const packages = ['core', 'plugins', 'utils', 'platform', 'rc-monitor'];
 
 function devPackage(pkgName) {
   console.log(`Starting dev mode for ${pkgName}...`);

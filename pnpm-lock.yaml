@@ -74,8 +74,29 @@ importers:
   packages/plugins:
     dependencies:
       '@rc-monitor/core':
-        specifier: workspace:*
+        specifier: file:../core
         version: link:../core
+      '@rc-monitor/platform':
+        specifier: file:../platform
+        version: link:../platform
+      '@rc-monitor/utils':
+        specifier: file:../utils
+        version: link:../utils
+
+  packages/rc-monitor:
+    dependencies:
+      '@rc-monitor/core':
+        specifier: file:../core
+        version: link:../core
+      '@rc-monitor/platform':
+        specifier: file:../platform
+        version: link:../platform
+      '@rc-monitor/plugins':
+        specifier: file:../plugins
+        version: link:../plugins
+      '@rc-monitor/utils':
+        specifier: file:../utils
+        version: link:../utils
 
   packages/utils:
     dependencies:

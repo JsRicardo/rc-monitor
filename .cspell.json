@@ -21,9 +21,10 @@
     "rc-monitor",
     "rollup",
     "tslib",
+    "typescript",
+    "Uniapp",
     "unuse",
     "unuseAllPlugin",
-    "typescript",
     "utils",
     "WEAPP",
     "workspace"
@@ -48,7 +49,11 @@
     "package-lock.json",
     "pnpm-lock.yaml"
   ],
-  "dictionaries": ["typescript", "node", "softwareTerms"],
+  "dictionaries": [
+    "typescript",
+    "node",
+    "softwareTerms"
+  ],
   "patterns": [
     {
       "name": "HTML Comments",

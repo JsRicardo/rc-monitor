@@ -5,6 +5,8 @@ export const PLUGIN_NAMES = {
   WEAPP_ERROR: 'weapp-error',
   REACT_ERROR_BOUNDARY: 'react-error-boundary',
   VUE_ERROR_HANDLER: 'vue-error-handler',
+  TARO_ERROR: 'taro-error',
+  UNI_ERROR: 'uni-error',
 } as const;
 
 // 平台类型常量
