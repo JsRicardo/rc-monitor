@@ -1,8 +1,11 @@
 import { Plugin, Monitor, REPORT_TYPE } from '@rc-monitor/core';
 import { PLUGIN_NAMES } from '@rc-monitor/platform';
-import { getPerformanceData, getAllPerformanceData, PerformanceName } from '@rc-monitor/utils';
-
-import { performanceResults } from '../../types';
+import {
+  getPerformanceData,
+  getAllPerformanceData,
+  PerformanceName,
+  PerformanceData,
+} from '@rc-monitor/utils';
 
 /**
  * 浏览器性能插件
@@ -18,27 +21,28 @@ export class BrowserPerformancePlugin implements Plugin {
    */
   constructor(
     private readonly metrics?: PerformanceName[],
-    private readonly inspector?: <T>(data: performanceResults) => T
+    private readonly inspector?: <T>(data: PerformanceData) => T
   ) {}
 
-  private async batchGetPerformanceData() {
-    let performanceData: performanceResults = {} as performanceResults;
+  private async batchGetPerformanceData(): Promise<PerformanceData[]> {
+    let res = [] as PerformanceData[];
     if (this.metrics?.length) {
-      for (const metric of this.metrics) {
-        performanceData[metric] = await getPerformanceData(metric);
-      }
+      const promises = this.metrics.map(metric => getPerformanceData(metric));
+      res = await Promise.all(promises);
     } else {
-      performanceData = await getAllPerformanceData();
+      res = await getAllPerformanceData();
     }
 
-    return performanceData;
+    return res;
   }
 
   async install(monitor: Monitor): Promise<void> {
     try {
-      const pData = await this.batchGetPerformanceData();
-      const data = this.inspector?.(pData) || pData;
-      monitor.report(REPORT_TYPE.PERFORMANCE, data);
+      const performanceDataArray = await this.batchGetPerformanceData();
+      performanceDataArray.forEach(pData => {
+        const data = this.inspector?.(pData) || pData;
+        monitor.report(REPORT_TYPE.PERFORMANCE, data);
+      });
     } catch (error) {
       console.error('BrowserPerformancePlugin error', error);
     }

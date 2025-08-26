@@ -67,16 +67,29 @@ export enum PerformanceName {
   LOAD = 'load',
 }
 
+export enum PerformanceMetric {
+  NAVIGATION = 'navigation',
+  RESOURCE = 'resource',
+  PAINT = 'paint',
+  LONG_TASK = 'longtask',
+}
+
+export enum PerformanceUnit {
+  MS = 'ms',
+  BYTE = 'byte',
+  COUNT = 'count',
+}
+
 /** 性能数据 */
 export interface PerformanceData {
   /** 性能指标类型 */
-  metric: 'navigation' | 'resource' | 'paint' | 'longtask';
+  metric: PerformanceMetric;
   /** 指标名称 */
   name: PerformanceName;
   /** 指标数据 */
   value: number;
   /** 单位 */
-  unit: 'ms' | 'byte' | 'count';
+  unit: PerformanceUnit;
   /** 额外信息 */
   extras?: Record<string, any>;
 }

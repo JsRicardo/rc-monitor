@@ -1,6 +1,6 @@
 import { onLCP, onFCP, onINP, onCLS, onTTFB } from 'web-vitals';
 
-import { PerformanceName, PerformanceData } from './types';
+import { PerformanceName, PerformanceData, PerformanceMetric, PerformanceUnit } from './types';
 
 /**
  * 使用web-vitals库获取性能指标的包装函数
@@ -17,10 +17,10 @@ function getLcpData(): Promise<PerformanceData> {
     try {
       onLCP((metric: any) => {
         resolve({
-          metric: 'paint',
+          metric: PerformanceMetric.PAINT,
           name: PerformanceName.LCP,
           value: Math.round(metric.value),
-          unit: 'ms',
+          unit: PerformanceUnit.MS,
           extras: {
             size: metric.entries.length > 0 ? metric.entries[metric.entries.length - 1].size : 0,
             element:
@@ -32,7 +32,12 @@ function getLcpData(): Promise<PerformanceData> {
       });
     } catch (error) {
       console.error('Failed to get LCP data:', error);
-      resolve({ metric: 'paint', name: PerformanceName.LCP, value: 0, unit: 'ms' });
+      resolve({
+        metric: PerformanceMetric.PAINT,
+        name: PerformanceName.LCP,
+        value: 0,
+        unit: PerformanceUnit.MS,
+      });
     }
   });
 }
@@ -46,15 +51,20 @@ function getFcpData(): Promise<PerformanceData> {
     try {
       onFCP((metric: any) => {
         resolve({
-          metric: 'paint',
+          metric: PerformanceMetric.PAINT,
           name: PerformanceName.FCP,
           value: Math.round(metric.value),
-          unit: 'ms',
+          unit: PerformanceUnit.MS,
         });
       });
     } catch (error) {
       console.error('Failed to get FCP data:', error);
-      resolve({ metric: 'paint', name: PerformanceName.FCP, value: 0, unit: 'ms' });
+      resolve({
+        metric: PerformanceMetric.PAINT,
+        name: PerformanceName.FCP,
+        value: 0,
+        unit: PerformanceUnit.MS,
+      });
     }
   });
 }
@@ -68,10 +78,10 @@ function getInpData(): Promise<PerformanceData> {
     try {
       onINP((metric: any) => {
         resolve({
-          metric: 'longtask',
+          metric: PerformanceMetric.LONG_TASK,
           name: PerformanceName.INP,
           value: Math.round(metric.value),
-          unit: 'ms',
+          unit: PerformanceUnit.MS,
           extras: {
             target:
               metric.entries.length > 0 && metric.entries[0].target
@@ -82,7 +92,12 @@ function getInpData(): Promise<PerformanceData> {
       });
     } catch (error) {
       console.error('Failed to get INP data:', error);
-      resolve({ metric: 'longtask', name: PerformanceName.INP, value: 0, unit: 'ms' });
+      resolve({
+        metric: PerformanceMetric.LONG_TASK,
+        name: PerformanceName.INP,
+        value: 0,
+        unit: PerformanceUnit.MS,
+      });
     }
   });
 }
@@ -96,15 +111,20 @@ function getClsData(): Promise<PerformanceData> {
     try {
       onCLS((metric: any) => {
         resolve({
-          metric: 'longtask',
+          metric: PerformanceMetric.LONG_TASK,
           name: PerformanceName.CLS,
           value: Math.round(metric.value * 1000) / 1000, // 保留三位小数
-          unit: 'count',
+          unit: PerformanceUnit.COUNT,
         });
       });
     } catch (error) {
       console.error('Failed to get CLS data:', error);
-      resolve({ metric: 'longtask', name: PerformanceName.CLS, value: 0, unit: 'count' });
+      resolve({
+        metric: PerformanceMetric.LONG_TASK,
+        name: PerformanceName.CLS,
+        value: 0,
+        unit: PerformanceUnit.COUNT,
+      });
     }
   });
 }
@@ -118,15 +138,20 @@ function getTtfbData(): Promise<PerformanceData> {
     try {
       onTTFB((metric: any) => {
         resolve({
-          metric: 'navigation',
+          metric: PerformanceMetric.NAVIGATION,
           name: PerformanceName.TTFB,
           value: Math.round(metric.value),
-          unit: 'ms',
+          unit: PerformanceUnit.MS,
         });
       });
     } catch (error) {
       console.error('Failed to get TTFB data:', error);
-      resolve({ metric: 'navigation', name: PerformanceName.TTFB, value: 0, unit: 'ms' });
+      resolve({
+        metric: PerformanceMetric.NAVIGATION,
+        name: PerformanceName.TTFB,
+        value: 0,
+        unit: PerformanceUnit.MS,
+      });
     }
   });
 }
@@ -155,18 +180,28 @@ function getDownloadData(): Promise<PerformanceData> {
         if (entries.length > 0) {
           const navEntry = entries[0] as any;
           resolve({
-            metric: 'navigation',
+            metric: PerformanceMetric.NAVIGATION,
             name: PerformanceName.DOWNLOAD,
             value: Math.round((navEntry.responseEnd || 0) - (navEntry.responseStart || 0)),
-            unit: 'ms',
+            unit: PerformanceUnit.MS,
           });
           return;
         }
       }
-      resolve({ metric: 'navigation', name: PerformanceName.DOWNLOAD, value: 0, unit: 'ms' });
+      resolve({
+        metric: PerformanceMetric.NAVIGATION,
+        name: PerformanceName.DOWNLOAD,
+        value: 0,
+        unit: PerformanceUnit.MS,
+      });
     } catch (error) {
       console.error('Failed to get Download data:', error);
-      resolve({ metric: 'navigation', name: PerformanceName.DOWNLOAD, value: 0, unit: 'ms' });
+      resolve({
+        metric: PerformanceMetric.NAVIGATION,
+        name: PerformanceName.DOWNLOAD,
+        value: 0,
+        unit: PerformanceUnit.MS,
+      });
     }
   });
 }
@@ -183,27 +218,27 @@ function getDomContentLoadedData(): Promise<PerformanceData> {
         if (entries.length > 0) {
           const navEntry = entries[0] as any;
           resolve({
-            metric: 'navigation',
+            metric: PerformanceMetric.NAVIGATION,
             name: PerformanceName.DOM_CONTENT_LOADED,
             value: Math.round((navEntry.domContentLoadedEventEnd || 0) - (navEntry.startTime || 0)),
-            unit: 'ms',
+            unit: PerformanceUnit.MS,
           });
           return;
         }
       }
       resolve({
-        metric: 'navigation',
+        metric: PerformanceMetric.NAVIGATION,
         name: PerformanceName.DOM_CONTENT_LOADED,
         value: 0,
-        unit: 'ms',
+        unit: PerformanceUnit.MS,
       });
     } catch (error) {
       console.error('Failed to get DOMContentLoaded data:', error);
       resolve({
-        metric: 'navigation',
+        metric: PerformanceMetric.NAVIGATION,
         name: PerformanceName.DOM_CONTENT_LOADED,
         value: 0,
-        unit: 'ms',
+        unit: PerformanceUnit.MS,
       });
     }
   });
@@ -221,18 +256,28 @@ function getLoadData(): Promise<PerformanceData> {
         if (entries.length > 0) {
           const navEntry = entries[0] as any;
           resolve({
-            metric: 'navigation',
+            metric: PerformanceMetric.NAVIGATION,
             name: PerformanceName.LOAD,
             value: Math.round((navEntry.loadEventEnd || 0) - (navEntry.startTime || 0)),
-            unit: 'ms',
+            unit: PerformanceUnit.MS,
           });
           return;
         }
       }
-      resolve({ metric: 'navigation', name: PerformanceName.LOAD, value: 0, unit: 'ms' });
+      resolve({
+        metric: PerformanceMetric.NAVIGATION,
+        name: PerformanceName.LOAD,
+        value: 0,
+        unit: PerformanceUnit.MS,
+      });
     } catch (error) {
       console.error('Failed to get Load data:', error);
-      resolve({ metric: 'navigation', name: PerformanceName.LOAD, value: 0, unit: 'ms' });
+      resolve({
+        metric: PerformanceMetric.NAVIGATION,
+        name: PerformanceName.LOAD,
+        value: 0,
+        unit: PerformanceUnit.MS,
+      });
     }
   });
 }
@@ -267,23 +312,14 @@ export function getPerformanceData(type: PerformanceName): Promise<PerformanceDa
 
 /**
  * 获取所有性能指标数据
- * @returns Promise<Record<PerformanceName, PerformanceData>> 所有性能指标数据
+ * @returns Promise<PerformanceData[]> 所有性能指标数据
  */
-export async function getAllPerformanceData(): Promise<Record<PerformanceName, PerformanceData>> {
-  const results: Record<PerformanceName, PerformanceData> = {} as Record<
-    PerformanceName,
-    PerformanceData
-  >;
-  const promises: Promise<void>[] = [];
+export function getAllPerformanceData(): Promise<PerformanceData[]> {
+  const promises: Promise<PerformanceData>[] = [];
 
-  performanceFnMap.forEach((fn, name) => {
-    promises.push(
-      fn().then(data => {
-        results[name] = data;
-      })
-    );
+  performanceFnMap.forEach(fn => {
+    promises.push(fn().then(data => data));
   });
 
-  await Promise.all(promises);
-  return results;
+  return Promise.all(promises);
 }
