@@ -1,5 +1,14 @@
 import { StackFrame } from 'error-stack-parser';
 
+export const PERFORMANCE_ERROR_TYPE = {
+  JS_ERROR: 'js-error',
+  PROMISE_REJECTION: 'promise-rejection',
+  PAGE_NOT_FOUND: 'page-not-found',
+} as const;
+
+export type PerformanceErrorType =
+  (typeof PERFORMANCE_ERROR_TYPE)[keyof typeof PERFORMANCE_ERROR_TYPE];
+
 /** JavaScript运行时错误数据 */
 export interface JsErrorData {
   /** 错误消息 */
@@ -17,7 +26,7 @@ export interface JsErrorData {
   /** 原始错误对象（序列化后的JSON字符串） */
   rawError?: string;
   /** 错误类型 */
-  errorType: 'js-error' | 'promise-rejection' | 'page-not-found';
+  errorType: PerformanceErrorType;
 }
 
 export interface ParsedError {
@@ -55,30 +64,34 @@ export interface PerformanceNavigationTiming {
   loadEventEnd: number;
 }
 
-export enum PerformanceName {
-  LCP = 'lcp',
-  FCP = 'fcp',
-  CLS = 'cls',
-  INP = 'inp',
-  TTFB = 'ttfb',
-  FIRST_BYTE = 'firstByte',
-  DOWNLOAD = 'download',
-  DOM_CONTENT_LOADED = 'domContentLoaded',
-  LOAD = 'load',
-}
+export const PERFORMANCE_NAME = {
+  LCP: 'lcp',
+  FCP: 'fcp',
+  CLS: 'cls',
+  INP: 'inp',
+  TTFB: 'ttfb',
+  FIRST_BYTE: 'firstByte',
+  DOWNLOAD: 'download',
+  DOM_CONTENT_LOADED: 'domContentLoaded',
+  LOAD: 'load',
+} as const;
 
-export enum PerformanceMetric {
-  NAVIGATION = 'navigation',
-  RESOURCE = 'resource',
-  PAINT = 'paint',
-  LONG_TASK = 'longtask',
-}
+export const PERFORMANCE_METRIC = {
+  NAVIGATION: 'navigation',
+  RESOURCE: 'resource',
+  PAINT: 'paint',
+  LONG_TASK: 'longtask',
+} as const;
 
-export enum PerformanceUnit {
-  MS = 'ms',
-  BYTE = 'byte',
-  COUNT = 'count',
-}
+export const PERFORMANCE_UNIT = {
+  MS: 'ms',
+  BYTE: 'byte',
+  COUNT: 'count',
+} as const;
+
+export type PerformanceName = (typeof PERFORMANCE_NAME)[keyof typeof PERFORMANCE_NAME];
+export type PerformanceMetric = (typeof PERFORMANCE_METRIC)[keyof typeof PERFORMANCE_METRIC];
+export type PerformanceUnit = (typeof PERFORMANCE_UNIT)[keyof typeof PERFORMANCE_UNIT];
 
 /** 性能数据 */
 export interface PerformanceData {

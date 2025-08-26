@@ -127,15 +127,21 @@
     </div>
 
     <script type="module">
-      import { Monitor, BrowserErrorPlugin } from '../packages/rc-monitor/dist/index.js';
+      import {
+        Monitor,
+        BrowserErrorPlugin,
+        BrowserPerformancePlugin,
+      } from '../packages/rc-monitor/dist/index.js';
 
       // 初始化监控器
       const monitor = Monitor.getMonitor({
         endpoint: 'http://localhost:3000/api/error',
         appId: 'test-app',
         environment: 'development',
+        debug: true,
       });
       monitor.use(new BrowserErrorPlugin());
+      monitor.use(new BrowserPerformancePlugin());
 
       // 自定义控制台输出
       function logToConsole(message, type = 'info') {

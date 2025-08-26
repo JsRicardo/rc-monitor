@@ -1,11 +1,14 @@
 import { Plugin, Monitor, REPORT_TYPE } from '@rc-monitor/core';
 import { PLUGIN_NAMES } from '@rc-monitor/platform';
-import {
-  getPerformanceData,
-  getAllPerformanceData,
-  PerformanceName,
-  PerformanceData,
-} from '@rc-monitor/utils';
+
+import { PERFORMANCE_NAME } from '../../types';
+
+import { observeFCP } from './observeFCP';
+import { observeFP } from './observeFP';
+import { observeINP } from './observeINP';
+import { observeLCP } from './observeLCP';
+
+import type { PerformanceName, PerformanceData } from '../../types';
 
 /**
  * 浏览器性能插件
@@ -13,6 +16,18 @@ import {
  */
 export class BrowserPerformancePlugin implements Plugin {
   name = PLUGIN_NAMES.BROWSER_PERFORMANCE;
+
+  private monitor?: Monitor;
+
+  private readonly observerMap = new Map<
+    PerformanceName,
+    (reporter: BrowserPerformancePlugin['reporter']) => void
+  >([
+    [PERFORMANCE_NAME.FCP, observeFCP],
+    [PERFORMANCE_NAME.INP, observeINP],
+    [PERFORMANCE_NAME.LCP, observeLCP],
+    [PERFORMANCE_NAME.FP, observeFP],
+  ]);
 
   /**
    * 浏览器性能插件
@@ -24,25 +39,28 @@ export class BrowserPerformancePlugin implements Plugin {
     private readonly inspector?: <T>(data: PerformanceData) => T
   ) {}
 
-  private async batchGetPerformanceData(): Promise<PerformanceData[]> {
-    let res = [] as PerformanceData[];
-    if (this.metrics?.length) {
-      const promises = this.metrics.map(metric => getPerformanceData(metric));
-      res = await Promise.all(promises);
-    } else {
-      res = await getAllPerformanceData();
-    }
-
-    return res;
+  private reporter(data: PerformanceData) {
+    const res = this.inspector?.(data) || data;
+    this.monitor?.report(REPORT_TYPE.PERFORMANCE, res);
   }
 
-  async install(monitor: Monitor): Promise<void> {
-    try {
-      const performanceDataArray = await this.batchGetPerformanceData();
-      performanceDataArray.forEach(pData => {
-        const data = this.inspector?.(pData) || pData;
-        monitor.report(REPORT_TYPE.PERFORMANCE, data);
+  private initialObservers() {
+    if (this.metrics?.length) {
+      this.metrics.forEach(metric => {
+        const observer = this.observerMap.get(metric);
+        if (observer) observer(this.reporter.bind(this));
       });
+    } else {
+      this.observerMap.forEach(observer => observer(this.reporter.bind(this)));
+    }
+  }
+
+  install(monitor: Monitor): void {
+    console.log('BrowserPerformancePlugin install');
+    this.monitor = monitor;
+
+    try {
+      this.initialObservers();
     } catch (error) {
       console.error('BrowserPerformancePlugin error', error);
     }

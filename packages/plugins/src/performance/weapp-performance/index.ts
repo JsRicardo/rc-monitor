@@ -1,11 +1,8 @@
 import { Plugin, Monitor, REPORT_TYPE } from '@rc-monitor/core';
 import { PLUGIN_NAMES } from '@rc-monitor/platform';
-import {
-  PerformanceName,
-  PerformanceData,
-  PerformanceMetric,
-  PerformanceUnit,
-} from '@rc-monitor/utils';
+import { PERFORMANCE_NAME, PERFORMANCE_METRIC, PERFORMANCE_UNIT } from '@rc-monitor/utils';
+
+import type { PerformanceData, PerformanceName } from '@rc-monitor/utils';
 
 /**
  * 微信小程序性能监控插件配置选项
@@ -156,10 +153,10 @@ export class WeappPerformancePlugin implements Plugin {
           if (name === 'lcp') {
             // LCP（最大内容绘制）监控
             this.reportPerformanceData(this.monitor, {
-              metric: PerformanceMetric.PAINT,
-              name: PerformanceName.LCP,
+              metric: PERFORMANCE_METRIC.PAINT,
+              name: PERFORMANCE_NAME.LCP,
               value: duration || Date.now() - startTime,
-              unit: PerformanceUnit.MS,
+              unit: PERFORMANCE_UNIT.MS,
               extras: {
                 path,
                 moduleName,
@@ -169,10 +166,10 @@ export class WeappPerformancePlugin implements Plugin {
           } else if (name === 'fcp') {
             // FCP（首次内容绘制）监控
             this.reportPerformanceData(this.monitor, {
-              metric: PerformanceMetric.PAINT,
-              name: PerformanceName.FCP,
+              metric: PERFORMANCE_METRIC.PAINT,
+              name: PERFORMANCE_NAME.FCP,
               value: duration || Date.now() - startTime,
-              unit: PerformanceUnit.MS,
+              unit: PERFORMANCE_UNIT.MS,
               extras: {
                 path,
                 moduleName,
@@ -182,10 +179,10 @@ export class WeappPerformancePlugin implements Plugin {
           } else if (name === 'cls') {
             // CLS（累计布局偏移）监控
             this.reportPerformanceData(this.monitor, {
-              metric: PerformanceMetric.PAINT,
-              name: PerformanceName.CLS,
+              metric: PERFORMANCE_METRIC.PAINT,
+              name: PERFORMANCE_NAME.CLS,
               value: duration || 0,
-              unit: PerformanceUnit.COUNT,
+              unit: PERFORMANCE_UNIT.COUNT,
               extras: {
                 path,
                 moduleName,
@@ -200,10 +197,10 @@ export class WeappPerformancePlugin implements Plugin {
           if (name === 'pageSwitch') {
             // 页面切换性能
             this.reportPerformanceData(this.monitor, {
-              metric: PerformanceMetric.NAVIGATION,
-              name: PerformanceName.LOAD,
+              metric: PERFORMANCE_METRIC.NAVIGATION,
+              name: PERFORMANCE_NAME.LOAD,
               value: duration,
-              unit: PerformanceUnit.MS,
+              unit: PERFORMANCE_UNIT.MS,
               extras: {
                 path,
                 moduleName,
@@ -219,10 +216,10 @@ export class WeappPerformancePlugin implements Plugin {
           if (name === 'scriptExecute' || name === 'setData') {
             // 脚本执行和setData性能监控
             this.reportPerformanceData(this.monitor, {
-              metric: PerformanceMetric.LONG_TASK,
-              name: PerformanceName.INP,
+              metric: PERFORMANCE_METRIC.LONG_TASK,
+              name: PERFORMANCE_NAME.INP,
               value: duration,
-              unit: PerformanceUnit.MS,
+              unit: PERFORMANCE_UNIT.MS,
               extras: {
                 path,
                 moduleName,
@@ -285,10 +282,10 @@ export class WeappPerformancePlugin implements Plugin {
           const pagePath = this.route || this.__route__;
 
           self.reportPerformanceData(monitor, {
-            metric: PerformanceMetric.NAVIGATION,
-            name: PerformanceName.LOAD,
+            metric: PERFORMANCE_METRIC.NAVIGATION,
+            name: PERFORMANCE_NAME.LOAD,
             value: pageLoadTime,
-            unit: PerformanceUnit.MS,
+            unit: PERFORMANCE_UNIT.MS,
             extras: {
               pagePath,
               event: 'pageLoad',
@@ -362,10 +359,10 @@ export class WeappPerformancePlugin implements Plugin {
 
         // 上报TTFB（近似值）
         self.reportPerformanceData(monitor, {
-          metric: PerformanceMetric.RESOURCE,
-          name: PerformanceName.TTFB,
+          metric: PERFORMANCE_METRIC.RESOURCE,
+          name: PERFORMANCE_NAME.TTFB,
           value: firstByteTime,
-          unit: PerformanceUnit.MS,
+          unit: PERFORMANCE_UNIT.MS,
           extras: {
             url,
             method,
@@ -376,10 +373,10 @@ export class WeappPerformancePlugin implements Plugin {
 
         // 上报DOWNLOAD
         self.reportPerformanceData(monitor, {
-          metric: PerformanceMetric.RESOURCE,
-          name: PerformanceName.DOWNLOAD,
+          metric: PERFORMANCE_METRIC.RESOURCE,
+          name: PERFORMANCE_NAME.DOWNLOAD,
           value: downloadTime,
-          unit: PerformanceUnit.MS,
+          unit: PERFORMANCE_UNIT.MS,
           extras: {
             url,
             method,
@@ -400,10 +397,10 @@ export class WeappPerformancePlugin implements Plugin {
 
         // 上报DOWNLOAD（失败情况）
         self.reportPerformanceData(monitor, {
-          metric: PerformanceMetric.RESOURCE,
-          name: PerformanceName.DOWNLOAD,
+          metric: PERFORMANCE_METRIC.RESOURCE,
+          name: PERFORMANCE_NAME.DOWNLOAD,
           value: downloadTime,
-          unit: PerformanceUnit.MS,
+          unit: PERFORMANCE_UNIT.MS,
           extras: {
             url,
             method,
@@ -433,10 +430,10 @@ export class WeappPerformancePlugin implements Plugin {
 
         // 上报应用启动时间（对应LOAD指标）
         this.reportPerformanceData(monitor, {
-          metric: PerformanceMetric.NAVIGATION,
-          name: PerformanceName.LOAD,
+          metric: PERFORMANCE_METRIC.NAVIGATION,
+          name: PERFORMANCE_NAME.LOAD,
           value: appLaunchTime,
-          unit: PerformanceUnit.MS,
+          unit: PERFORMANCE_UNIT.MS,
           extras: {
             scene: launchOptions.scene,
             path: launchOptions.path,
@@ -479,10 +476,10 @@ export class WeappPerformancePlugin implements Plugin {
       const stayTime = Date.now() - pageInfo.startTime;
       // 上报页面停留时间（自定义指标）
       this.reportPerformanceData(monitor, {
-        metric: PerformanceMetric.NAVIGATION,
-        name: PerformanceName.LOAD, // 使用LOAD指标记录页面停留时间
+        metric: PERFORMANCE_METRIC.NAVIGATION,
+        name: PERFORMANCE_NAME.LOAD, // 使用LOAD指标记录页面停留时间
         value: stayTime,
-        unit: PerformanceUnit.MS,
+        unit: PERFORMANCE_UNIT.MS,
         extras: {
           pagePath,
           event: 'pageStay',

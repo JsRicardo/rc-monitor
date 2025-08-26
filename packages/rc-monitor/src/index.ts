@@ -15,7 +15,12 @@ import {
 // 平台相关导入 - 值
 import { detectPlatform, PLUGIN_NAMES, PLATFORM_TYPES } from '@rc-monitor/platform';
 // 插件导入
-import { BrowserErrorPlugin, WeappErrorPlugin, TaroErrorPlugin } from '@rc-monitor/plugins';
+import {
+  BrowserErrorPlugin,
+  WeappErrorPlugin,
+  TaroErrorPlugin,
+  BrowserPerformancePlugin,
+} from '@rc-monitor/plugins';
 // 工具函数导入 - 值
 import { isPromiseRejection, parseError } from '@rc-monitor/utils';
 
@@ -44,6 +49,7 @@ export {
   BrowserErrorPlugin,
   WeappErrorPlugin,
   TaroErrorPlugin,
+  BrowserPerformancePlugin,
 
   // 错误解析工具
   parseError,
