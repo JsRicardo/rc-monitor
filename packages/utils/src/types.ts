@@ -1,3 +1,5 @@
+import { StackFrame } from 'error-stack-parser';
+
 /** JavaScript运行时错误数据 */
 export interface JsErrorData {
   /** 错误消息 */
@@ -29,9 +31,52 @@ export interface ParsedError {
   rawError: any;
 }
 
-export interface ErrorParseOptions {
-  /** 是否解析堆栈信息 */
-  parseStack?: boolean;
-  /** 最大堆栈帧数 */
-  maxStackFrames?: number;
+/** LCP (Largest Contentful Paint) 条目类型 */
+export interface LargestContentfulPaint {
+  renderTime: number;
+  loadTime: number;
+  size: number;
+  element: Element | null;
+}
+
+/** FID (First Input Delay) 条目类型 */
+export interface FirstInputDelayEntry {
+  processingStart: number;
+  startTime: number;
+  target: Element | null;
+}
+
+/** 导航性能计时类型 */
+export interface PerformanceNavigationTiming {
+  startTime: number;
+  responseStart: number;
+  responseEnd: number;
+  domContentLoadedEventEnd: number;
+  loadEventEnd: number;
+}
+
+export enum PerformanceName {
+  LCP = 'lcp',
+  FCP = 'fcp',
+  CLS = 'cls',
+  INP = 'inp',
+  TTFB = 'ttfb',
+  FIRST_BYTE = 'firstByte',
+  DOWNLOAD = 'download',
+  DOM_CONTENT_LOADED = 'domContentLoaded',
+  LOAD = 'load',
+}
+
+/** 性能数据 */
+export interface PerformanceData {
+  /** 性能指标类型 */
+  metric: 'navigation' | 'resource' | 'paint' | 'longtask';
+  /** 指标名称 */
+  name: PerformanceName;
+  /** 指标数据 */
+  value: number;
+  /** 单位 */
+  unit: 'ms' | 'byte' | 'count';
+  /** 额外信息 */
+  extras?: Record<string, any>;
 }

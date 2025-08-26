@@ -102,6 +102,9 @@ importers:
       error-stack-parser:
         specifier: ^2.1.4
         version: 2.1.4
+      web-vitals:
+        specifier: ^5.1.0
+        version: 5.1.0
 
 packages:
   '@ampproject/remapping@2.3.0':
@@ -5894,6 +5897,12 @@ packages:
         integrity: sha512-XHPEwS0q6TaxcvG85+8EYkbiCux2XtWG2mkc47Ng2A77BQu9+DqIOJldST4HgPkuea7dvKSj5VgX3P1d4rW8Tg==,
       }
 
+  web-vitals@5.1.0:
+    resolution:
+      {
+        integrity: sha512-ArI3kx5jI0atlTtmV0fWU3fjpLmq/nD3Zr1iFFlJLaqa5wLBkUSzINwBPySCX/8jRyjlmy1Volw1kz1g9XE4Jg==,
+      }
+
   webidl-conversions@4.0.2:
     resolution:
       {
@@ -9916,6 +9925,8 @@ snapshots:
   wcwidth@1.0.1:
     dependencies:
       defaults: 1.0.4
+
+  web-vitals@5.1.0: {}
 
   webidl-conversions@4.0.2: {}
 

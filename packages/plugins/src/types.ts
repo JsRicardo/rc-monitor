@@ -1,10 +1,4 @@
-/** Promise拒绝数据 */
-export interface PromiseRejectionData {
-  /** 拒绝原因 */
-  reason?: string;
-  /** Promise对象 */
-  promise: any;
-}
+import { PerformanceData, PerformanceName } from '@rc-monitor/utils';
 
 /** 资源加载错误数据 */
 export interface ResourceErrorData {
@@ -14,18 +8,6 @@ export interface ResourceErrorData {
   src: string;
   /** 错误消息 */
   message: string;
-}
-
-/** 性能数据 */
-export interface PerformanceData {
-  /** 性能指标类型 */
-  metric: 'navigation' | 'resource' | 'paint' | 'longtask';
-  /** 指标数据 */
-  value: number;
-  /** 单位 */
-  unit: 'ms' | 'byte' | 'count';
-  /** 额外信息 */
-  extras?: Record<string, any>;
 }
 
 /** 用户行为数据 */
@@ -40,10 +22,4 @@ export interface UserBehaviorData {
   extras?: Record<string, any>;
 }
 
-export const JS_ERROR_TYPE = {
-  JS_ERROR: 'js-error',
-  PROMISE_REJECTION: 'promise-rejection',
-  RESOURCE_ERROR: 'resource-error',
-  PERFORMANCE: 'performance',
-  USER_BEHAVIOR: 'user-behavior',
-} as const;
+export type performanceResults = Record<PerformanceName, PerformanceData>;
