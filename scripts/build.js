@@ -1,16 +1,26 @@
 #!/usr/bin/env node
 
 import { execSync } from 'child_process';
+import { readdirSync, statSync } from 'fs';
+import { join } from 'path';
 
-const packages = ['core', 'plugins', 'utils', 'platform', 'rc-monitor'];
+// 自动获取packages目录下的所有包
+const getPackages = () => {
+  const packagesDir = join(import.meta.dirname, '../packages');
+  return readdirSync(packagesDir).filter(item => {
+    const itemPath = join(packagesDir, item);
+    // 只返回目录，排除隐藏文件
+    return statSync(itemPath).isDirectory() && !item.startsWith('.');
+  });
+};
+
+const packages = getPackages();
 
 function buildPackage(pkgName) {
   console.log(`Building ${pkgName}...`);
   try {
     execSync(
-      `npx tsup packages/${pkgName}/src/index.ts --dts --format esm,cjs --target es2020 --out-dir packages/${pkgName}/dist --tsconfig packages/${pkgName}/tsconfig.json ${
-        pkgName === 'plugins' ? '--external @rc-monitor/core' : ''
-      }`,
+      `npx tsup packages/${pkgName}/src/index.ts --config tsup.config.ts --out-dir packages/${pkgName}/dist`,
       {
         stdio: 'inherit',
       }
@@ -30,6 +40,13 @@ function buildAll() {
 
 const args = process.argv.slice(2);
 
+// 检查是否是列出包的命令
+if (args.includes('--list-packages')) {
+  console.log('Available packages:', packages.join(', '));
+  process.exit(0);
+}
+
+// 正常的构建逻辑
 if (args.length === 0) {
   buildAll();
 } else {
