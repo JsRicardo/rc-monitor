@@ -1,6 +1,6 @@
 import ERRParser, { StackFrame } from 'error-stack-parser';
 
-import { JsErrorData, ParsedError } from './types';
+import type { JsErrorData, ParsedError } from './types';
 
 /**
  * 解析堆栈字符串为结构化堆栈帧
@@ -70,6 +70,15 @@ export function isPromiseRejection(error: unknown): boolean {
  */
 export function isError(error: unknown): error is Error {
   return error instanceof Error || error?.constructor?.name === 'Error';
+}
+
+/** 根据错误数据创建uuid
+ * @param error 错误数据
+ * @returns uuid
+ */
+export function createErrorUuid(error: JsErrorData): string {
+  const { message, filename, lineno, colno } = error;
+  return `uuid-${message}-${filename}-${lineno}-${colno}`;
 }
 
 /**

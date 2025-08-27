@@ -3,13 +3,22 @@
  * 包含所有公共接口和类型定义
  */
 
+import { REPORT_TYPE, REPORTER_TYPE } from './constant';
 import { Monitor } from './monitor';
+
+export type ReporterType = (typeof REPORTER_TYPE)[keyof typeof REPORTER_TYPE];
 
 export interface MonitorConfig {
   /** 数据上报地址 */
   endpoint: string;
   /** 应用ID */
   appId: string;
+  /** 采样率  */
+  sampleRate?: number;
+  /** 上报方案 img sendBeacon xhr fetch*/
+  reporterType: ReporterType;
+  /** 自定义上报方法 */
+  reportFunction?: (data: ReportData[]) => void;
   /** 上报间隔（毫秒） */
   reportInterval?: number;
   /** 最大缓存数据条数 */
@@ -17,7 +26,7 @@ export interface MonitorConfig {
   /** 是否启用调试模式 */
   debug?: boolean;
   /** 数据格式自定义函数 */
-  inspector?: (type: string, data: any) => any;
+  inspector?: <T>(type: string, data: any) => T;
 }
 
 export interface Plugin {
@@ -32,6 +41,8 @@ export interface Plugin {
 export interface ReportData {
   /** 数据类型 */
   type: string;
+  /** 数据唯一ID */
+  uuid?: string;
   /** 数据内容 */
   data: any;
   /** 时间戳 */
@@ -53,13 +64,5 @@ export interface PluginManager {
   /** 卸载所有插件 */
   unuseAllPlugin(): void;
 }
-
-export const REPORT_TYPE = {
-  JS_ERROR: 'js-error',
-  PROMISE_REJECTION: 'promise-rejection',
-  RESOURCE_ERROR: 'resource-error',
-  PERFORMANCE: 'performance',
-  USER_BEHAVIOR: 'user-behavior',
-} as const;
 
 export type ReportType = (typeof REPORT_TYPE)[keyof typeof REPORT_TYPE];

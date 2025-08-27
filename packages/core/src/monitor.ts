@@ -42,7 +42,7 @@ export class Monitor {
     };
 
     this.pluginManager = new DefaultPluginManager();
-    this.reportService = new FetchReportService(this.config.endpoint, this.config.appId);
+    this.reportService = new FetchReportService(this.config);
     this.dataQueue = new DataQueue<ReportData>(this.config.maxCacheSize);
     this.log = createLogger(this.config.debug ?? false, 'Monitor');
 
@@ -83,7 +83,7 @@ export class Monitor {
    * @param type 数据类型
    * @param data 数据内容
    */
-  public report(type: ReportType, data: any): void {
+  public report(type: ReportType, data: any, uuid?: string): void {
     this.log('上报数据', type);
 
     if (!this.initialized) {
@@ -95,6 +95,7 @@ export class Monitor {
 
     const reportData: ReportData = {
       type,
+      uuid,
       data: formattedData,
       timestamp: Date.now(),
       appId: this.config.appId,
@@ -105,7 +106,7 @@ export class Monitor {
       this.log('Data queue is full, dropping oldest data');
     }
 
-    this.dataQueue.enqueue(reportData);
+    this.dataQueue.enqueueUnique(reportData);
     this.log(`Data reported: ${type}`, data);
 
     // 如果缓存数据达到一定数量，立即上报

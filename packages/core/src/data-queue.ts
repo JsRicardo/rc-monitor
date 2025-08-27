@@ -1,8 +1,10 @@
+import { ReportData } from './types';
+
 /**
  * 数据队列管理器
  * 负责数据的缓存和削峰限流
  */
-export class DataQueue<T> {
+export class DataQueue<T extends ReportData> {
   /** 数据队列 */
   private queue: T[] = [];
   /** 最大队列长度 */
@@ -37,6 +39,24 @@ export class DataQueue<T> {
     const items = [...this.queue];
     this.queue = [];
     return items;
+  }
+
+  /**
+   * 同一个用户，同一次访问，同一个错误，只上报一次
+   * @param item 数据项
+   * @returns 是否添加成功（如果队列已满则移除最旧数据）
+   */
+  enqueueUnique(item: T): boolean {
+    const { uuid } = item;
+    if (!uuid) {
+      return this.enqueue(item);
+    }
+
+    if (this.queue.some(i => i.uuid === uuid)) {
+      return false;
+    }
+
+    return this.enqueue(item);
   }
 
   /**

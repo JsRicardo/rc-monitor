@@ -1,6 +1,6 @@
 import { Plugin, Monitor, REPORT_TYPE } from '@rc-monitor/core';
 import { PLUGIN_NAMES } from '@rc-monitor/platform';
-import { createJsErrorData, type JsErrorData } from '@rc-monitor/utils';
+import { createErrorUuid, createJsErrorData, type JsErrorData } from '@rc-monitor/utils';
 
 export class BrowserErrorPlugin implements Plugin {
   name = PLUGIN_NAMES.BROWSER_ERROR;
@@ -14,15 +14,17 @@ export class BrowserErrorPlugin implements Plugin {
     // 捕获JavaScript运行时错误
     this.errorHandler = (event: ErrorEvent) => {
       const errorData = createJsErrorData(event.error, REPORT_TYPE.JS_ERROR);
+      const uuid = createErrorUuid(errorData);
       const data = this.inspector?.(errorData) || errorData;
-      monitor.report(REPORT_TYPE.JS_ERROR, data);
+      monitor.report(REPORT_TYPE.JS_ERROR, data, uuid);
     };
 
     // 捕获未处理的Promise拒绝
     this.rejectionHandler = (event: PromiseRejectionEvent) => {
       const errorData = createJsErrorData(event.reason, REPORT_TYPE.PROMISE_REJECTION);
+      const uuid = createErrorUuid(errorData);
       const data = this.inspector?.(errorData) || errorData;
-      monitor.report(REPORT_TYPE.PROMISE_REJECTION, data);
+      monitor.report(REPORT_TYPE.PROMISE_REJECTION, data, uuid);
     };
 
     window.addEventListener('error', this.errorHandler);

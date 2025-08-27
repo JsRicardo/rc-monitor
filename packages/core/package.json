@@ -8,12 +8,7 @@
   "files": [
     "dist"
   ],
-  "scripts": {
-    "test": "jest",
-    "test:unit": "jest --testPathPattern=\"__tests__\"",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
-  },
+  "scripts": {},
   "keywords": [
     "monitor",
     "sdk",
@@ -24,10 +19,8 @@
   "author": "Js Ricardo",
   "license": "MIT",
   "packageManager": "pnpm@10.14.0",
-  "dependencies": {},
-  "devDependencies": {
-    "jest": "^29.7.0",
-    "@types/jest": "^29.5.0",
-    "ts-jest": "^29.2.0"
-  }
+  "dependencies": {
+    "@rc-monitor/utils": "file:../utils"
+  },
+  "devDependencies": {}
 }
