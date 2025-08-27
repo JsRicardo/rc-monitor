@@ -1,14 +1,18 @@
 import { Plugin, Monitor, REPORT_TYPE } from '@rc-monitor/core';
 import { PLUGIN_NAMES } from '@rc-monitor/platform';
 
-import { PERFORMANCE_NAME } from '../../types';
+import { PERFORMANCE_NAME } from '../../constant';
 
+import { observeCLS } from './observeCLS';
+import { observeEntries } from './observeEntries';
 import { observeFCP } from './observeFCP';
 import { observeFP } from './observeFP';
 import { observeINP } from './observeINP';
 import { observeLCP } from './observeLCP';
+import { observeLoad } from './observeLoad';
+import { observeTTFB } from './observeTTFB';
 
-import type { PerformanceName, PerformanceData } from '../../types';
+import type { PerformanceName, PerformanceData, Reporter } from '../../types';
 
 /**
  * 浏览器性能插件
@@ -19,14 +23,16 @@ export class BrowserPerformancePlugin implements Plugin {
 
   private monitor?: Monitor;
 
-  private readonly observerMap = new Map<
-    PerformanceName,
-    (reporter: BrowserPerformancePlugin['reporter']) => void
-  >([
+  private readonly observerMap = new Map<PerformanceName, (reporter: Reporter) => void>([
     [PERFORMANCE_NAME.FCP, observeFCP],
     [PERFORMANCE_NAME.INP, observeINP],
     [PERFORMANCE_NAME.LCP, observeLCP],
     [PERFORMANCE_NAME.FP, observeFP],
+    [PERFORMANCE_NAME.CLS, observeCLS],
+    [PERFORMANCE_NAME.TTFB, observeTTFB],
+    [PERFORMANCE_NAME.FIRST_BYTE, observeTTFB],
+    [PERFORMANCE_NAME.LOAD, observeLoad],
+    [PERFORMANCE_NAME.ENTRIES, observeEntries],
   ]);
 
   /**

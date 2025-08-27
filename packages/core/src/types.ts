@@ -17,7 +17,7 @@ export interface MonitorConfig {
   /** 是否启用调试模式 */
   debug?: boolean;
   /** 数据格式自定义函数 */
-  dataFormatter?: (type: string, data: any) => any;
+  inspector?: (type: string, data: any) => any;
 }
 
 export interface Plugin {

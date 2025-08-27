@@ -1,8 +1,9 @@
 import { Plugin, Monitor, REPORT_TYPE } from '@rc-monitor/core';
 import { PLUGIN_NAMES } from '@rc-monitor/platform';
-import { PERFORMANCE_NAME, PERFORMANCE_METRIC, PERFORMANCE_UNIT } from '@rc-monitor/utils';
 
-import type { PerformanceData, PerformanceName } from '@rc-monitor/utils';
+import { PERFORMANCE_NAME, PERFORMANCE_METRIC, PERFORMANCE_UNIT } from '../../constant';
+
+import type { PerformanceData, PerformanceName } from '../../types';
 
 /**
  * 微信小程序性能监控插件配置选项

@@ -23,7 +23,8 @@
   "packageManager": "pnpm@10.14.0",
   "dependencies": {
     "@rc-monitor/core": "file:../core",
+    "@rc-monitor/platform": "file:../platform",
     "@rc-monitor/utils": "file:../utils",
-    "@rc-monitor/platform": "file:../platform"
+    "web-vitals": "^5.1.0"
   }
 }

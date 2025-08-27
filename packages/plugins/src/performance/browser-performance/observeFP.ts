@@ -1,4 +1,4 @@
-import { PERFORMANCE_METRIC, PERFORMANCE_NAME, PERFORMANCE_UNIT } from '../../types';
+import { PERFORMANCE_METRIC, PERFORMANCE_NAME, PERFORMANCE_UNIT } from '../../constant';
 
 import type { Reporter } from '../../types';
 

@@ -81,6 +81,9 @@ importers:
       '@rc-monitor/utils':
         specifier: file:../utils
         version: link:../utils
+      web-vitals:
+        specifier: ^5.1.0
+        version: 5.1.0
 
   packages/rc-monitor:
     dependencies:
@@ -102,9 +105,6 @@ importers:
       error-stack-parser:
         specifier: ^2.1.4
         version: 2.1.4
-      web-vitals:
-        specifier: ^5.1.0
-        version: 5.1.0
 
 packages:
   '@ampproject/remapping@2.3.0':

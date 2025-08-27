@@ -91,7 +91,7 @@ export class Monitor {
       return;
     }
 
-    const formattedData = this.config.dataFormatter?.(type, data) || data;
+    const formattedData = this.config.inspector?.(type, data) || data;
 
     const reportData: ReportData = {
       type,

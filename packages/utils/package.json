@@ -22,7 +22,6 @@
   "license": "MIT",
   "packageManager": "pnpm@10.14.0",
   "dependencies": {
-    "error-stack-parser": "^2.1.4",
-    "web-vitals": "^5.1.0"
+    "error-stack-parser": "^2.1.4"
   }
 }
