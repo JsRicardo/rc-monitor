@@ -1,0 +1,38 @@
+{
+  "name": "@rc-monitor/adapter",
+  "version": "0.0.1",
+  "description": "监控SDK核心模块 框架适配器",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "monitor",
+    "sdk",
+    "performance",
+    "error",
+    "analytics"
+  ],
+  "author": "Js Ricardo",
+  "license": "MIT",
+  "packageManager": "pnpm@10.14.0",
+  "dependencies": {
+    "@rc-monitor/core": "file:../core",
+    "@rc-monitor/utils": "file:../utils"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "@types/react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "vue": "^3.0.0"
+  },
+  "devDependencies": {
+    "react": "^18.2.0",
+    "@types/react": "^18.2.0",
+    "vue": "^3.3.0"
+  }
+}

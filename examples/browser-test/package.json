@@ -7,7 +7,11 @@
     "dev": "node server.js",
     "test": "echo \"打开浏览器访问 http://localhost:3000 进行测试\""
   },
-  "keywords": ["examples", "testing", "monitoring"],
+  "keywords": [
+    "examples",
+    "testing",
+    "monitoring"
+  ],
   "author": "",
   "license": "ISC"
 }

@@ -1,8 +1,10 @@
 /**
- * rc-monitor SDK - 统一导出入口
+ * rc-monitor SDK - * 统一导出入口
  * 导出所有外部需要的功能
  */
 
+// 适配器模块导入 - 值
+import { Vue3Adapter, ReactAdapter } from '@rc-monitor/adapter';
 // 核心模块导入 - 值
 import {
   Monitor,
@@ -14,16 +16,13 @@ import {
 } from '@rc-monitor/core';
 // 平台相关导入 - 值
 import { detectPlatform, PLUGIN_NAMES, PLATFORM_TYPES } from '@rc-monitor/platform';
-// 插件导入
-import {
-  BrowserErrorPlugin,
-  WeappErrorPlugin,
-  TaroErrorPlugin,
-  BrowserPerformancePlugin,
-} from '@rc-monitor/plugins';
-// 工具函数导入 - 值
-import { isPromiseRejection, parseError } from '@rc-monitor/utils';
 
+// 适配器模块导入 - 类型
+import type {
+  Vue3AdapterInstance,
+  ErrorBoundaryProps,
+  ErrorBoundaryState,
+} from '@rc-monitor/adapter';
 // 核心模块导入 - 类型
 import type { MonitorConfig, Plugin, ReportData, ReportType } from '@rc-monitor/core';
 // 平台相关导入 - 类型
@@ -31,6 +30,15 @@ import type { PlatformType } from '@rc-monitor/platform';
 
 // 统一导出
 export {
+  // 适配器
+  Vue3Adapter,
+  ReactAdapter,
+
+  // 适配器类型
+  Vue3AdapterInstance,
+  ErrorBoundaryProps,
+  ErrorBoundaryState,
+
   // 核心类
   Monitor,
   FetchReportService,
@@ -44,16 +52,6 @@ export {
   Plugin,
   ReportData,
   ReportType,
-
-  // 插件
-  BrowserErrorPlugin,
-  WeappErrorPlugin,
-  TaroErrorPlugin,
-  BrowserPerformancePlugin,
-
-  // 错误解析工具
-  parseError,
-  isPromiseRejection,
 
   // 平台相关
   PLUGIN_NAMES,

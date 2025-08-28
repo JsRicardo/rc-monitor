@@ -22,8 +22,7 @@
   "packageManager": "pnpm@10.14.0",
   "dependencies": {
     "@rc-monitor/core": "file:../core",
-    "@rc-monitor/plugins": "file:../plugins",
-    "@rc-monitor/utils": "file:../utils",
+    "@rc-monitor/adapter": "file:../adapter",
     "@rc-monitor/platform": "file:../platform"
   }
 }

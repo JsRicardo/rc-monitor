@@ -11,4 +11,6 @@ export const REPORT_TYPE = {
   RESOURCE_ERROR: 'resource-error',
   PERFORMANCE: 'performance',
   USER_BEHAVIOR: 'user-behavior',
+  VUE_ERROR: 'vue-error',
+  REACT_ERROR: 'react-error',
 } as const;

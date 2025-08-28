@@ -1,12 +1,12 @@
 import { parseError, createJsErrorData, isPromiseRejection, createErrorUuid } from './errorHandler';
 import { imageSender, fetchSender, sendBeaconSender, xhrSender } from './reportSender';
 
-import type { JsErrorData, ParsedError, PerformanceErrorType } from './types';
+import type { JsErrorData, ParsedError, RcErrorType } from './types';
 
 export {
   JsErrorData,
   ParsedError,
-  PerformanceErrorType,
+  RcErrorType,
   isPromiseRejection,
   createErrorUuid,
   parseError,

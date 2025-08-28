@@ -1,13 +1,12 @@
 import { StackFrame } from 'error-stack-parser';
 
-export const PERFORMANCE_ERROR_TYPE = {
+export const RC_ERROR_TYPE = {
   JS_ERROR: 'js-error',
   PROMISE_REJECTION: 'promise-rejection',
   PAGE_NOT_FOUND: 'page-not-found',
 } as const;
 
-export type PerformanceErrorType =
-  (typeof PERFORMANCE_ERROR_TYPE)[keyof typeof PERFORMANCE_ERROR_TYPE];
+export type RcErrorType = (typeof RC_ERROR_TYPE)[keyof typeof RC_ERROR_TYPE];
 
 /** JavaScript运行时错误数据 */
 export interface JsErrorData {
@@ -26,7 +25,7 @@ export interface JsErrorData {
   /** 原始错误对象（序列化后的JSON字符串） */
   rawError?: string;
   /** 错误类型 */
-  errorType: PerformanceErrorType;
+  errorType: RcErrorType;
 }
 
 export interface ParsedError {
