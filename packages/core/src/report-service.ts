@@ -35,11 +35,7 @@ export class FetchReportService implements ReportService {
     try {
       const reporter = this.reporterTypeMap.get(this.config.reporterType || 'fetch');
       if (reporter) {
-        reporter(this.config.endpoint, {
-          appId: this.config.appId,
-          timeStamp: Date.now(),
-          data,
-        });
+        reporter(this.config.endpoint, data);
       }
     } catch (error) {
       console.error('Error sending data:', error);

@@ -9,15 +9,15 @@ import { FetchReportService } from './report-service';
 import { MonitorConfig, Plugin, ReportData, ReportType } from './types';
 import { createLogger } from './utils';
 
+type ReportDataExtra = ReportData & { retryCount?: number };
+
 export class Monitor {
-  /** 配置信息 */
-  private config: MonitorConfig;
   /** 插件管理器 */
   private pluginManager: DefaultPluginManager;
   /** 数据上报服务 */
   private reportService: FetchReportService;
   /** 数据缓存队列 */
-  private dataQueue: DataQueue<ReportData>;
+  private dataQueue: DataQueue<ReportDataExtra>;
   /** 上报定时器 */
   private reportTimer: NodeJS.Timeout | null = null;
   /** 是否已初始化 */
@@ -33,17 +33,17 @@ export class Monitor {
    * 创建监控实例
    * @param config 监控配置
    */
-  private constructor(config: MonitorConfig) {
+  private constructor(private readonly config: MonitorConfig) {
     this.config = {
-      reportInterval: 5000,
-      maxCacheSize: 1000,
+      maxCacheSize: 20,
       debug: false,
+      retryMax: 3,
       ...config,
     };
 
     this.pluginManager = new DefaultPluginManager();
     this.reportService = new FetchReportService(this.config);
-    this.dataQueue = new DataQueue<ReportData>(this.config.maxCacheSize);
+    this.dataQueue = new DataQueue(this.config.maxCacheSize);
     this.log = createLogger(this.config.debug ?? false, 'Monitor');
 
     this.init();
@@ -59,7 +59,7 @@ export class Monitor {
       return;
     }
 
-    this.startReportTimer();
+    this.config.reportInterval && this.startReportTimer();
     this.initialized = true;
     this.log('Monitor initialized successfully');
   }
@@ -91,6 +91,12 @@ export class Monitor {
       return;
     }
 
+    // 控制采样率
+    if (Math.random() > (this.config.sampleRate || 1)) {
+      return;
+    }
+
+    // 拦截器格式化数据
     const formattedData = this.config.inspector?.(type, data) || data;
 
     const reportData: ReportData = {
@@ -122,13 +128,19 @@ export class Monitor {
     if (this.dataQueue.isEmpty) {
       return;
     }
-
     const dataToReport = this.dataQueue.flush();
 
     this.reportService.sendData(dataToReport).catch(error => {
       this.log('Data report failed, re-queuing data', error);
-      // 上报失败，重新加入队列
-      dataToReport.forEach(data => this.dataQueue.enqueue(data));
+      // 上报失败，重新加入队列 限制重试次数 3次 如果失败则丢弃数据
+      dataToReport.forEach(data => {
+        const retryCount = data.retryCount || 0;
+        if (retryCount > this.config.retryMax!)
+          this.dataQueue.enqueueUnique({
+            ...data,
+            retryCount: retryCount + 1,
+          });
+      });
     });
   }
 
@@ -216,12 +228,15 @@ export class Monitor {
   private static isSameConfig(config1: MonitorConfig | null, config2: MonitorConfig): boolean {
     if (!config1 || !config2) return false;
 
-    return (
-      config1.endpoint === config2.endpoint &&
-      config1.appId === config2.appId &&
-      config1.reportInterval === config2.reportInterval &&
-      config1.maxCacheSize === config2.maxCacheSize &&
-      config1.debug === config2.debug
-    );
+    if (Reflect.ownKeys(config1).length !== Reflect.ownKeys(config2).length) return false;
+
+    for (const key in config1) {
+      // @ts-ignore
+      if (config1[key] !== config2[key]) {
+        return false;
+      }
+    }
+
+    return true;
   }
 }

@@ -27,6 +27,8 @@ export interface MonitorConfig {
   debug?: boolean;
   /** 数据格式自定义函数 */
   inspector?: <T>(type: string, data: any) => T;
+  /** 限制错误重试次数 */
+  retryMax?: number;
 }
 
 export interface Plugin {
