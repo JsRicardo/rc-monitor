@@ -1,6 +1,6 @@
 {
   "name": "@rc-monitor/core",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "监控SDK核心模块 - 提供初始化、数据上传、削峰限流、插件注册等基础功能",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -22,5 +22,8 @@
   "dependencies": {
     "@rc-monitor/utils": "file:../utils"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "publishConfig": {
+    "access": "public"
+  }
 }

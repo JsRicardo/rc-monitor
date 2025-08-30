@@ -1,6 +1,6 @@
 {
   "name": "@rc-monitor/plugins",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "监控SDK核心模块 插件模块",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -26,5 +26,8 @@
     "@rc-monitor/platform": "file:../platform",
     "@rc-monitor/utils": "file:../utils",
     "web-vitals": "^5.1.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

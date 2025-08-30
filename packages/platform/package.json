@@ -1,6 +1,6 @@
 {
   "name": "@rc-monitor/platform",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "监控SDK核心模块 平台兼容",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -20,5 +20,8 @@
   ],
   "author": "Js Ricardo",
   "license": "MIT",
-  "packageManager": "pnpm@10.14.0"
+  "packageManager": "pnpm@10.14.0",
+  "publishConfig": {
+    "access": "public"
+  }
 }
