@@ -1,8 +1,8 @@
 import { PERFORMANCE_METRIC, PERFORMANCE_NAME, PERFORMANCE_UNIT } from '../../constant';
 
-import type { Reporter } from '../../types';
+import type { PerformanceReporter } from '../../types';
 
-export function observeFP(reporter: Reporter) {
+export function observeFP(reporter: PerformanceReporter) {
   if (!window?.PerformanceObserver) {
     return;
   }
@@ -16,6 +16,7 @@ export function observeFP(reporter: Reporter) {
           name: PERFORMANCE_NAME.FP,
           value: Math.round(entry.startTime),
           unit: PERFORMANCE_UNIT.MS,
+          extras: entry,
         });
       }
     }

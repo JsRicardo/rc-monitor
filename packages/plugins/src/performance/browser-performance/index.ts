@@ -12,7 +12,7 @@ import { observeLCP } from './observeLCP';
 import { observeLoad } from './observeLoad';
 import { observeTTFB } from './observeTTFB';
 
-import type { PerformanceName, PerformanceData, Reporter } from '../../types';
+import type { PerformanceName, PerformanceData, PerformanceReporter } from '../../types';
 
 /**
  * 浏览器性能插件
@@ -23,7 +23,7 @@ export class BrowserPerformancePlugin implements Plugin {
 
   private monitor?: Monitor;
 
-  private readonly observerMap = new Map<PerformanceName, (reporter: Reporter) => void>([
+  private readonly observerMap = new Map<PerformanceName, (reporter: PerformanceReporter) => void>([
     [PERFORMANCE_NAME.FCP, observeFCP],
     [PERFORMANCE_NAME.INP, observeINP],
     [PERFORMANCE_NAME.LCP, observeLCP],
@@ -42,10 +42,10 @@ export class BrowserPerformancePlugin implements Plugin {
    */
   constructor(
     private readonly metrics?: PerformanceName[],
-    private readonly inspector?: <T>(data: PerformanceData) => T
+    private readonly inspector?: <T, K>(data: PerformanceData<K>) => T
   ) {}
 
-  private reporter(data: PerformanceData) {
+  private reporter<T>(data: PerformanceData<T>) {
     const res = this.inspector?.(data) || data;
     this.monitor?.report(REPORT_TYPE.PERFORMANCE, res);
   }

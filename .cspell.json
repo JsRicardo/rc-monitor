@@ -14,6 +14,7 @@
     "lintstaged",
     "longtask",
     "monitor",
+    "npmignore",
     "performance",
     "plugin-based",
     "pnpm",
@@ -27,6 +28,7 @@
     "unuse",
     "unuseAllPlugin",
     "utils",
+    "Vite",
     "WEAPP",
     "workspace"
   ],

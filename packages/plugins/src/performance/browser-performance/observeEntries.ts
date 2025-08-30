@@ -1,8 +1,8 @@
 import { PERFORMANCE_METRIC, PERFORMANCE_NAME, PERFORMANCE_UNIT } from '../../constant';
 
-import type { Reporter } from '../../types';
+import type { PerformanceReporter } from '../../types';
 
-function observeEvent(reporter: Reporter) {
+function observeEvent(reporter: PerformanceReporter) {
   const observer = new PerformanceObserver(list => {
     const entries = list.getEntries();
     for (const entry of entries as PerformanceResourceTiming[]) {
@@ -34,7 +34,7 @@ function observeEvent(reporter: Reporter) {
   observer.observe({ type: 'resource', buffered: true });
 }
 
-export function observeEntries(reporter: Reporter) {
+export function observeEntries(reporter: PerformanceReporter) {
   if (document.readyState === 'complete') {
     observeEvent(reporter);
   } else {

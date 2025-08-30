@@ -12,7 +12,7 @@ export interface WeappPerformancePluginOptions {
   /** 需要监控的性能指标 */
   metrics?: PerformanceName[];
   /** 性能数据处理函数 */
-  inspector?: (data: PerformanceData) => PerformanceData | void;
+  inspector?: <T>(data: PerformanceData<T>) => PerformanceData<T> | void;
   /** 采样率，范围0-1 */
   samplingRate?: number;
   /** 是否监控页面切换性能 */
@@ -493,7 +493,7 @@ export class WeappPerformancePlugin implements Plugin {
   /**
    * 上报性能数据
    */
-  private reportPerformanceData(monitor: Monitor, data: PerformanceData): void {
+  private reportPerformanceData(monitor: Monitor, data: PerformanceData<any>): void {
     try {
       // 检查是否需要过滤特定指标
       if (this.options.metrics && this.options.metrics.length > 0) {

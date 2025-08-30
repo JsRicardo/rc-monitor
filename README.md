@@ -32,9 +32,10 @@ npm install @rc-monitor/rc-monitor
 
 ```javascript
 import { Monitor } from '@rc-monitor/rc-monitor';
+import { BrowserPerformancePlugin } from '@rc-monitor/plugins';
 
 // 初始化监控实例
-const monitor = new Monitor({
+const monitor = Monitor.getMonitor({
   appId: 'your-app-id',
   userId: 'user-123',
   reportUrl: 'https://your-report-server.com/api/report',
@@ -46,8 +47,13 @@ const monitor = new Monitor({
   samplingRate: 1.0,
 });
 
+// 使用插件 定义监控类型 和 数据转换函数
+monitor.use(
+  new BrowserPerformancePlugin(['FCP', 'LCP', 'TTFB', 'FID'], performanceData => transform(data))
+);
+
 // 启动监控
-monitor.start();
+monitor.init();
 
 // 手动上报数据
 monitor.report({

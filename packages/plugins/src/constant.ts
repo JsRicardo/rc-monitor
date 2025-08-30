@@ -24,3 +24,11 @@ export const PERFORMANCE_UNIT = {
   BYTE: 'byte',
   COUNT: 'count',
 } as const;
+
+export const USER_BEHAVIOR_ACTION = {
+  CLICK: 'click',
+  INPUT: 'input',
+  SCROLL: 'scroll',
+  PAGE_CHANGE: 'pageChange',
+  PV: 'pv',
+} as const;

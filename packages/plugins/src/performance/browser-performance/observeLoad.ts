@@ -1,8 +1,8 @@
 import { PERFORMANCE_METRIC, PERFORMANCE_NAME, PERFORMANCE_UNIT } from '../../constant';
 
-import type { Reporter } from '../../types';
+import type { PerformanceReporter } from '../../types';
 
-export function observeLoad(reporter: Reporter) {
+export function observeLoad(reporter: PerformanceReporter) {
   window.addEventListener(
     'load',
     event => {
@@ -12,6 +12,7 @@ export function observeLoad(reporter: Reporter) {
           name: PERFORMANCE_NAME.LOAD,
           value: performance.now() - event.timeStamp,
           unit: PERFORMANCE_UNIT.MS,
+          extras: event,
         });
       });
     },

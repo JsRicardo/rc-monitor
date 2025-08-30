@@ -1,7 +1,22 @@
-export { BrowserErrorPlugin } from './error/browser-error';
-export { WeappErrorPlugin } from './error/weapp-error';
-export { TaroErrorPlugin } from './error/taro-error';
-export { UniErrorPlugin } from './error/uniapp-error';
+import { BrowserBehaviorPlugin } from './behavior';
+import { BrowserErrorPlugin, WeappErrorPlugin, TaroErrorPlugin, UniErrorPlugin } from './error';
+import { BrowserPerformancePlugin, WeappPerformancePlugin } from './performance';
 
-export { BrowserPerformancePlugin } from './performance/browser-performance';
-export { WeappPerformancePlugin } from './performance/weapp-performance';
+/**
+ * 监控插件集合
+ * 提供错误、性能、用户行为等多种监控功能
+ */
+export {
+  // 错误监控插件
+  BrowserErrorPlugin,
+  WeappErrorPlugin,
+  TaroErrorPlugin,
+  UniErrorPlugin,
+
+  // 性能监控插件
+  BrowserPerformancePlugin,
+  WeappPerformancePlugin,
+
+  // 用户行为监控插件
+  BrowserBehaviorPlugin,
+};
