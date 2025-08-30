@@ -146,6 +146,10 @@
       monitor.use(new BrowserPerformancePlugin());
       monitor.use(new BrowserBehaviorPlugin());
 
+      setInterval(() => {
+        monitor.flush();
+      }, 1000);
+
       // 自定义控制台输出
       function logToConsole(message, type = 'info') {
         const consoleElement = document.getElementById('console');

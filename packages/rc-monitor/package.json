@@ -3,7 +3,8 @@
   "version": "0.0.2",
   "description": "监控SDK核心模块 - 主包",
   "main": "dist/index.js",
-  "module": "dist/index.esm.js",
+  "module": "dist/index.js",
+  "commonjs": "dist/index.cjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist"

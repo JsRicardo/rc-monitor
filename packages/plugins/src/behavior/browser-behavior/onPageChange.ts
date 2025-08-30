@@ -22,7 +22,7 @@ export default function onPageChange(reporter: UserBehaviorReporter) {
         url: newUrl,
         timestamp: Date.now(),
         eventType: 'spaNavigation',
-        element: document.documentElement,
+        element: 'body',
         extras: {
           fromUrl: currentUrl,
           fromTitle: currentTitle,

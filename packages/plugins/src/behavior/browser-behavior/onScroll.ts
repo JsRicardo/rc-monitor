@@ -15,7 +15,7 @@ export default function onScroll(reporter: UserBehaviorReporter) {
           url: window.location.href,
           timestamp: Date.now(),
           eventType: e.type,
-          element: e.target,
+          element: e.target instanceof Element ? e.target.tagName.toLowerCase() : 'unknown',
           extras: {
             ...e,
             scrollTop: window.scrollY || document.documentElement.scrollTop,

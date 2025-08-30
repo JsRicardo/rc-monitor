@@ -20,7 +20,7 @@ export interface UserBehaviorData<T> {
   /** 行为类型 */
   action: UserBehaviorAction;
   /** 元素选择器或标识 */
-  element: EventTarget | null;
+  element: Element['tagName'] | null;
   /** 页面URL */
   url: string;
   /** 时间 */

@@ -20,7 +20,7 @@ export default function onPV(reporter: UserBehaviorReporter) {
       url: window.location.href,
       timestamp: Date.now(),
       eventType: 'pageLoad',
-      element: document.documentElement,
+      element: 'body',
       extras: {
         pageId: generatePageId(),
         title: document.title,

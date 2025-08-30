@@ -10,19 +10,21 @@ export default function onClick(reporter: UserBehaviorReporter) {
 
   defaultBehavior.forEach(item => {
     const handleClick = (e: Event) => {
+      const elementTarget = e.target instanceof Element ? e.target : null;
       reporter({
         action: USER_BEHAVIOR_ACTION.CLICK,
         url: window.location.href,
         timestamp: Date.now(),
         eventType: e.type,
-        element: e.target,
+        element: elementTarget?.tagName?.toLowerCase() || 'unknown',
         extras: {
           // 提取事件对象的关键信息，避免直接传递整个事件对象
           x: 'clientX' in e ? (e as MouseEvent).clientX : 0,
           y: 'clientY' in e ? (e as MouseEvent).clientY : 0,
-          targetTagName: e.target instanceof Element ? e.target.tagName.toLowerCase() : '',
-          targetId: e.target instanceof Element ? e.target.id : '',
-          targetClass: e.target instanceof Element ? Array.from(e.target.classList).join(' ') : '',
+          outerHTML: elementTarget?.outerHTML,
+          targetTagName: elementTarget?.tagName?.toLowerCase() || '',
+          targetId: elementTarget?.id || '',
+          targetClass: elementTarget?.classList?.value || '',
           // 可以根据需要添加更多有用的信息
         },
       });

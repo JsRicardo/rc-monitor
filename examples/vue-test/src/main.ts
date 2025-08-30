@@ -2,18 +2,31 @@ import { createApp } from 'vue';
 import './style.css';
 import App from './App.vue';
 import { Monitor } from '@rc-monitor/rc-monitor';
-import { Vue3Adapter } from '@rc-monitor/adapter';
+import {
+  BrowserErrorPlugin,
+  BrowserBehaviorPlugin,
+  BrowserPerformancePlugin,
+} from '@rc-monitor/plugins';
 
 const monitor = Monitor.getMonitor({
   appId: '123',
   endpoint: 'http://localhost:3000',
   reporterType: 'xhr',
 });
+monitor.use(new BrowserErrorPlugin());
+monitor.use(new BrowserBehaviorPlugin());
+monitor.use(new BrowserPerformancePlugin());
+
 const app = createApp(App);
 
 app.config.errorHandler = (err, instance, info) => {
   console.log(err, instance, info);
 };
 
-app.use(Vue3Adapter(monitor));
+app.use({
+  install(app) {
+    app.config.globalProperties.$monitor = monitor;
+  },
+});
+
 app.mount('#app');

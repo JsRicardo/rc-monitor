@@ -3,7 +3,8 @@
   "version": "0.0.2",
   "description": "监控SDK核心模块 插件模块",
   "main": "dist/index.js",
-  "module": "dist/index.esm.js",
+  "module": "dist/index.js",
+  "commonjs": "dist/index.cjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
@@ -25,7 +26,11 @@
     "@rc-monitor/core": "file:../core",
     "@rc-monitor/platform": "file:../platform",
     "@rc-monitor/utils": "file:../utils",
-    "web-vitals": "^5.1.0"
+    "web-vitals": "^5.1.0",
+    "lodash-es": "^4.17.21"
+  },
+  "devDependencies": {
+    "@types/lodash-es": "^4.17.6"
   },
   "publishConfig": {
     "access": "public"
