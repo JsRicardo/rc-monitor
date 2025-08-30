@@ -1,3 +1,5 @@
+import { USER_BEHAVIOR_ACTION } from '../../constant';
+
 import type { UserBehaviorReporter } from '../../types';
 
 const defaultBehavior = ['click', 'touchstart'];
@@ -9,7 +11,7 @@ export default function onClick(reporter: UserBehaviorReporter) {
   defaultBehavior.forEach(item => {
     const handleClick = (e: Event) => {
       reporter({
-        action: 'click',
+        action: USER_BEHAVIOR_ACTION.CLICK,
         url: window.location.href,
         timestamp: Date.now(),
         eventType: e.type,

@@ -132,6 +132,7 @@
       import {
         BrowserErrorPlugin,
         BrowserPerformancePlugin,
+        BrowserBehaviorPlugin,
       } from '../../packages/plugins/dist/index.js';
 
       // 初始化监控器
@@ -143,6 +144,7 @@
       });
       monitor.use(new BrowserErrorPlugin());
       monitor.use(new BrowserPerformancePlugin());
+      monitor.use(new BrowserBehaviorPlugin());
 
       // 自定义控制台输出
       function logToConsole(message, type = 'info') {

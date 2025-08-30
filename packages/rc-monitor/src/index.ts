@@ -6,14 +6,7 @@
 // 适配器模块导入 - 值
 import { Vue3Adapter, ReactAdapter } from '@rc-monitor/adapter';
 // 核心模块导入 - 值
-import {
-  Monitor,
-  FetchReportService,
-  DefaultPluginManager,
-  createLogger,
-  DataQueue,
-  REPORT_TYPE,
-} from '@rc-monitor/core';
+import { Monitor, DataQueue, REPORT_TYPE, REPORTER_TYPE } from '@rc-monitor/core';
 // 平台相关导入 - 值
 import { detectPlatform, PLUGIN_NAMES, PLATFORM_TYPES } from '@rc-monitor/platform';
 
@@ -24,7 +17,7 @@ import type {
   ErrorBoundaryState,
 } from '@rc-monitor/adapter';
 // 核心模块导入 - 类型
-import type { MonitorConfig, Plugin, ReportData, ReportType } from '@rc-monitor/core';
+import type { MonitorConfig, Plugin, ReportData, ReportType, ReporterType } from '@rc-monitor/core';
 // 平台相关导入 - 类型
 import type { PlatformType } from '@rc-monitor/platform';
 
@@ -41,17 +34,16 @@ export {
 
   // 核心类
   Monitor,
-  FetchReportService,
-  DefaultPluginManager,
-  createLogger,
   DataQueue,
   REPORT_TYPE,
+  REPORTER_TYPE,
 
   // 核心类型
   MonitorConfig,
   Plugin,
   ReportData,
   ReportType,
+  ReporterType,
 
   // 平台相关
   PLUGIN_NAMES,
