@@ -1,7 +1,7 @@
 import { createApp } from 'vue';
 import './style.css';
 import App from './App.vue';
-import { Monitor } from '@rc-monitor/rc-monitor';
+import { Monitor, Vue3Adapter } from '@rc-monitor/rc-monitor';
 import {
   BrowserErrorPlugin,
   BrowserBehaviorPlugin,
@@ -19,13 +19,21 @@ monitor.use(new BrowserPerformancePlugin());
 
 const app = createApp(App);
 
-app.config.errorHandler = (err, instance, info) => {
-  console.log(err, instance, info);
-};
+// app.config.errorHandler = (err, instance, info) => {
+//   console.log(err, instance, info);
+// };
 
-app.use({
-  install(app) {
-    app.config.globalProperties.$monitor = monitor;
+// app.use({
+//   install(app) {
+//     app.config.globalProperties.$monitor = monitor;
+//   },
+// });
+
+Vue3Adapter(monitor, {
+  provide: true,
+  errorInspector: (data: any) => {
+    console.log(data);
+    return data;
   },
 });
 

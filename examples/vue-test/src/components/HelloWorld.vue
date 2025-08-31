@@ -1,18 +1,22 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance } from 'vue';
+import { useRCMonitor } from '@rc-monitor/rc-monitor';
 const instance = getCurrentInstance();
+const monitor = useRCMonitor();
+
+console.error('🚀 ~ HelloWorld.vue:5 ~ instance:', instance);
 
 defineProps<{ msg: string }>();
 
 const count = ref(0);
 
-function onClickCount(e) {
+function onClickCount(e: Event) {
   count.value++;
-  instance.$monitor.report({
-    type: 'click',
-    target: e.target,
-    text: e.target.innerText,
-  });
+  monitor.report('user-behavior', { type: 'click', target: (e.target as HTMLElement).tagName });
+  // instance?.appContext?.config?.globalProperties.$monitor?.report('user-behavior', {
+  //   type: 'click',
+  //   target: e.target,
+  // });
 }
 </script>
 
