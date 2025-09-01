@@ -16,7 +16,6 @@
     "@rc-monitor/adapter": "file:../../packages/adapter",
     "@rc-monitor/core": "file:../../packages/core",
     "@rc-monitor/utils": "file:../../packages/utils",
-    "@rc-monitor/platform": "file:../../packages/platform",
     "@rc-monitor/plugins": "file:../../packages/plugins"
   },
   "devDependencies": {

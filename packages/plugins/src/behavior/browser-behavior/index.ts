@@ -1,7 +1,6 @@
 import { Plugin, Monitor, REPORT_TYPE } from '@rc-monitor/core';
-import { PLUGIN_NAMES } from '@rc-monitor/platform';
 
-import { USER_BEHAVIOR_ACTION } from '../../constant';
+import { USER_BEHAVIOR_ACTION, PLUGIN_NAMES } from '../../constant';
 
 import onClick from './onClick';
 import onInput from './onInput';

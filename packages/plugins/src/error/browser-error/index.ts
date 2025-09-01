@@ -1,7 +1,7 @@
 import { Plugin, Monitor, REPORT_TYPE } from '@rc-monitor/core';
-import { PLUGIN_NAMES } from '@rc-monitor/platform';
 import { createErrorUuid, createJsErrorData, type JsErrorData } from '@rc-monitor/utils';
 
+import { PLUGIN_NAMES } from '../../constant';
 export class BrowserErrorPlugin implements Plugin {
   name = PLUGIN_NAMES.BROWSER_ERROR;
 

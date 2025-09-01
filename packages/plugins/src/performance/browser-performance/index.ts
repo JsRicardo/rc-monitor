@@ -1,7 +1,6 @@
 import { Plugin, Monitor, REPORT_TYPE } from '@rc-monitor/core';
-import { PLUGIN_NAMES } from '@rc-monitor/platform';
 
-import { PERFORMANCE_NAME } from '../../constant';
+import { PERFORMANCE_NAME, PLUGIN_NAMES } from '../../constant';
 
 import { observeCLS } from './observeCLS';
 import { observeEntries } from './observeEntries';

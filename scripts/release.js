@@ -20,11 +20,10 @@ const getReleaseOrder = () => {
   // 定义依赖关系
   const dependencies = {
     utils: [],
-    platform: [],
     core: ['utils'],
     adapter: ['core', 'utils'],
-    plugins: ['core', 'platform', 'utils'],
-    'rc-monitor': ['core', 'adapter', 'platform'],
+    plugins: ['core', 'utils'],
+    'rc-monitor': ['core', 'adapter'],
   };
 
   // 构建依赖图并拓扑排序

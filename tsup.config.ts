@@ -13,13 +13,7 @@ export default defineConfig({
   // 清理输出目录
   clean: true,
   // 外部依赖配置 - 使用数组形式以支持序列化
-  external: [
-    '@rc-monitor/core',
-    '@rc-monitor/platform',
-    '@rc-monitor/utils',
-    '@rc-monitor/adapter',
-    '@rc-monitor/plugins',
-  ],
+  external: ['@rc-monitor/core', '@rc-monitor/utils', '@rc-monitor/adapter', '@rc-monitor/plugins'],
 
   // 插件配置
   plugins: [

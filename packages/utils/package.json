@@ -1,6 +1,6 @@
 {
   "name": "@rc-monitor/utils",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "监控SDK核心模块 工具包",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -24,6 +24,13 @@
   "packageManager": "pnpm@10.14.0",
   "dependencies": {
     "error-stack-parser": "^2.1.4"
+  },
+  "peerDependencies": {
+    "@tarojs/taro": "^3.0.0"
+  },
+  "devDependencies": {
+    "@tarojs/taro": "^4.0.0",
+    "@types/uni-app": "^1.4.8"
   },
   "publishConfig": {
     "access": "public"

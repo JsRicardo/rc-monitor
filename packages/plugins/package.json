@@ -1,6 +1,6 @@
 {
   "name": "@rc-monitor/plugins",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "监控SDK核心模块 插件模块",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -24,7 +24,6 @@
   "packageManager": "pnpm@10.14.0",
   "dependencies": {
     "@rc-monitor/core": "file:../core",
-    "@rc-monitor/platform": "file:../platform",
     "@rc-monitor/utils": "file:../utils",
     "web-vitals": "^5.1.0",
     "lodash-es": "^4.17.21"

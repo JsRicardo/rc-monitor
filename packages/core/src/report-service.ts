@@ -11,7 +11,7 @@ import type { ReportService, ReportData, MonitorConfig, ReporterType } from './t
 export class FetchReportService implements ReportService {
   private readonly reporterTypeMap = new Map<
     ReporterType,
-    (url: string, data: Record<string, any>) => void
+    (url: string, data: Record<string, any>, options?: any) => void
   >([
     [REPORTER_TYPE.FETCH, fetchSender],
     [REPORTER_TYPE.XHR, xhrSender],
@@ -35,7 +35,7 @@ export class FetchReportService implements ReportService {
     try {
       const reporter = this.reporterTypeMap.get(this.config.reporterType || 'fetch');
       if (reporter) {
-        reporter(this.config.endpoint, data);
+        reporter(this.config.endpoint, data, this.config.reportOptions);
       }
     } catch (error) {
       console.error('Error sending data:', error);

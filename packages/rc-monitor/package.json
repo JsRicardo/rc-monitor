@@ -1,6 +1,6 @@
 {
   "name": "@rc-monitor/rc-monitor",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "监控SDK核心模块 - 主包",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -23,8 +23,7 @@
   "packageManager": "pnpm@10.14.0",
   "dependencies": {
     "@rc-monitor/core": "file:../core",
-    "@rc-monitor/adapter": "file:../adapter",
-    "@rc-monitor/platform": "file:../platform"
+    "@rc-monitor/adapter": "file:../adapter"
   },
   "publishConfig": {
     "access": "public"

@@ -32,3 +32,21 @@ export const USER_BEHAVIOR_ACTION = {
   PAGE_CHANGE: 'pageChange',
   PV: 'pv',
 } as const;
+
+// 平台插件名称常量
+export const PLUGIN_NAMES = {
+  BROWSER_ERROR: 'browser-error',
+  BROWSER_PERFORMANCE: 'browser-performance',
+  BROWSER_BEHAVIOR: 'browser-behavior',
+  WEAPP_BEHAVIOR: 'weapp-behavior',
+  WEAPP_ERROR: 'weapp-error',
+  WEAPP_PERFORMANCE: 'weapp-performance',
+  REACT_ERROR_BOUNDARY: 'react-error-boundary',
+  VUE_ERROR_HANDLER: 'vue-error-handler',
+  TARO_ERROR: 'taro-error',
+  TARO_PERFORMANCE: 'taro-performance',
+  TARO_BEHAVIOR: 'taro-behavior',
+  UNI_ERROR: 'uni-error',
+  UNI_PERFORMANCE: 'uni-performance',
+  UNI_BEHAVIOR: 'uni-behavior',
+} as const;

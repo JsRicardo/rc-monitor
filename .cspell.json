@@ -21,6 +21,7 @@
     "prettier",
     "rc-monitor",
     "rollup",
+    "tarojs",
     "tslib",
     "ttfb",
     "typescript",

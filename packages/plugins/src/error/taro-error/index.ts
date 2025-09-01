@@ -1,7 +1,7 @@
 import { Plugin, Monitor, REPORT_TYPE } from '@rc-monitor/core';
-import { PLUGIN_NAMES } from '@rc-monitor/platform';
 import { createErrorUuid, createJsErrorData, JsErrorData } from '@rc-monitor/utils';
 
+import { PLUGIN_NAMES } from '../../constant';
 export class TaroErrorPlugin implements Plugin {
   name = PLUGIN_NAMES.TARO_ERROR;
 

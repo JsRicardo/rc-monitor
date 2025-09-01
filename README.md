@@ -71,7 +71,6 @@ monitor.report({
 │   ├── core/         # 监控 SDK 核心框架
 │   ├── plugins/      # 各类监控插件（错误/性能/行为等）
 │   ├── adapter/      # 适配层代码
-│   ├── platform/     # 平台相关代码
 │   ├── utils/        # 通用工具函数库
 │   └── rc-monitor/   # 集成所有功能的完整SDK
 ├── examples/         # 使用示例代码
@@ -86,7 +85,6 @@ monitor.report({
 - **@rc-monitor/core**：提供监控SDK的核心功能，包括初始化、数据收集、上报、插件系统等基础能力
 - **@rc-monitor/plugins**：包含各类监控插件，如错误监控、性能监控、用户行为监控等
 - **@rc-monitor/adapter**：提供与各前端框架的适配代码
-- **@rc-monitor/platform**：提供与不同平台（Web、小程序等）的适配代码
 - **@rc-monitor/utils**：提供各类通用工具函数
 - **@rc-monitor/rc-monitor**：集成上述所有模块的完整SDK，提供开箱即用的监控解决方案
 
@@ -116,7 +114,6 @@ pnpm build
 pnpm build:core       # 构建核心包
 pnpm build:plugins    # 构建插件包
 pnpm build:utils      # 构建工具包
-pnpm build:platform   # 构建平台包
 pnpm build:rc-monitor # 构建完整SDK
 
 # 开发模式（监视文件变化并自动重新构建）

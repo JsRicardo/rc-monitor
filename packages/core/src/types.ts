@@ -29,6 +29,8 @@ export interface MonitorConfig {
   inspector?: <T>(type: string, data: any) => T;
   /** 限制错误重试次数 */
   retryMax?: number;
+  /** 上报接口配置 */
+  reportOptions?: { timeout: number; headers: Record<string, string>; [key: string]: any };
 }
 
 export interface Plugin {
