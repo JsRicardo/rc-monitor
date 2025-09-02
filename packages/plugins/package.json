@@ -1,6 +1,6 @@
 {
   "name": "@rc-monitor/plugins",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "监控SDK核心模块 插件模块",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -28,8 +28,10 @@
     "web-vitals": "^5.1.0",
     "lodash-es": "^4.17.21"
   },
+  "peerDependencies": {},
   "devDependencies": {
-    "@types/lodash-es": "^4.17.6"
+    "@types/lodash-es": "^4.17.6",
+    "@types/uni-app": "^1.4.8"
   },
   "publishConfig": {
     "access": "public"

@@ -51,3 +51,14 @@ export interface PerformanceData<T> {
 
 export type PerformanceReporter = <T>(data: PerformanceData<T>) => void;
 export type UserBehaviorReporter = <T>(data: UserBehaviorData<T>) => void;
+export type PerformanceInspector = <T, K>(data: PerformanceData<K>) => T;
+
+export interface PerformancePluginOption {
+  metrics?: PerformanceName[];
+  inspector?: PerformanceInspector;
+}
+
+export type PerformanceObserverMap = Map<
+  PerformanceName,
+  (reporter: PerformanceReporter) => () => void
+>;

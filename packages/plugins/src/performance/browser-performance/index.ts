@@ -1,6 +1,5 @@
-import { Plugin, Monitor, REPORT_TYPE } from '@rc-monitor/core';
-
 import { PERFORMANCE_NAME, PLUGIN_NAMES } from '../../constant';
+import BasePlugin from '../BasePlugin';
 
 import { observeCLS } from './observeCLS';
 import { observeEntries } from './observeEntries';
@@ -11,18 +10,16 @@ import { observeLCP } from './observeLCP';
 import { observeLoad } from './observeLoad';
 import { observeTTFB } from './observeTTFB';
 
-import type { PerformanceName, PerformanceData, PerformanceReporter } from '../../types';
+import type { PerformanceObserverMap, PerformancePluginOption } from '../../types';
 
 /**
  * 浏览器性能插件
  * 用于采集浏览器性能指标
  */
-export class BrowserPerformancePlugin implements Plugin {
+export class BrowserPerformancePlugin extends BasePlugin {
   name = PLUGIN_NAMES.BROWSER_PERFORMANCE;
 
-  private monitor?: Monitor;
-
-  private readonly observerMap = new Map<PerformanceName, (reporter: PerformanceReporter) => void>([
+  protected readonly observerMap = new Map([
     [PERFORMANCE_NAME.FCP, observeFCP],
     [PERFORMANCE_NAME.INP, observeINP],
     [PERFORMANCE_NAME.LCP, observeLCP],
@@ -32,46 +29,9 @@ export class BrowserPerformancePlugin implements Plugin {
     [PERFORMANCE_NAME.FIRST_BYTE, observeTTFB],
     [PERFORMANCE_NAME.LOAD, observeLoad],
     [PERFORMANCE_NAME.ENTRIES, observeEntries],
-  ]);
+  ]) as PerformanceObserverMap;
 
-  /**
-   * 浏览器性能插件
-   * @param metrics 性能指标
-   * @param inspector 性能指标处理函数
-   */
-  constructor(
-    private readonly metrics?: PerformanceName[],
-    private readonly inspector?: <T, K>(data: PerformanceData<K>) => T
-  ) {}
-
-  private reporter<T>(data: PerformanceData<T>) {
-    const res = this.inspector?.(data) || data;
-    this.monitor?.report(REPORT_TYPE.PERFORMANCE, res);
-  }
-
-  private initialObservers() {
-    if (this.metrics?.length) {
-      this.metrics.forEach(metric => {
-        const observer = this.observerMap.get(metric);
-        if (observer) observer(this.reporter.bind(this));
-      });
-    } else {
-      this.observerMap.forEach(observer => observer(this.reporter.bind(this)));
-    }
-  }
-
-  install(monitor: Monitor): void {
-    console.log('BrowserPerformancePlugin install');
-    this.monitor = monitor;
-
-    try {
-      this.initialObservers();
-    } catch (error) {
-      console.error('BrowserPerformancePlugin error', error);
-    }
-  }
-
-  uninstall(): void {
-    console.log('BrowserPerformancePlugin uninstall');
+  constructor(options?: PerformancePluginOption) {
+    super(options);
   }
 }

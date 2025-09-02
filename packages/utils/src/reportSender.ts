@@ -1,5 +1,3 @@
-import Taro from '@tarojs/taro';
-
 import getPlatform, { PLATFORM_TYPES } from './getPlatform';
 
 /**
@@ -229,7 +227,7 @@ function wxSendFn(url: string, data: Record<string, any>, options: SenderOptions
 }
 
 function taroSendFn(url: string, data: Record<string, any>, options: SenderOptions = {}) {
-  Taro.request({
+  (global as any).Taro.request({
     url,
     data,
     method: 'POST',
@@ -238,7 +236,7 @@ function taroSendFn(url: string, data: Record<string, any>, options: SenderOptio
       'Content-Type': 'application/json',
       ...options.headers,
     },
-  }).catch(error => {
+  }).catch((error: Error) => {
     console.error('Taro request error:', error);
   });
 }

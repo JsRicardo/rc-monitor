@@ -15,7 +15,7 @@ const monitor = Monitor.getMonitor({
 });
 monitor.use(new BrowserErrorPlugin());
 monitor.use(new BrowserBehaviorPlugin());
-monitor.use(new BrowserPerformancePlugin());
+monitor.use(new BrowserPerformancePlugin({ metrics: ['lcp', 'entries'] }));
 
 const app = createApp(App);
 

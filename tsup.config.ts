@@ -5,7 +5,7 @@ export default defineConfig({
   // 输出格式
   format: ['esm', 'cjs'],
   // 目标环境
-  target: 'es5',
+  target: 'es2015',
   // 是否生成类型声明文件
   dts: true,
   // 是否生成source map
