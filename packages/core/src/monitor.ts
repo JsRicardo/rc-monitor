@@ -84,7 +84,9 @@ export class Monitor {
    * @param data 数据内容
    */
   public report(type: ReportType, data: any, uuid?: string): void {
-    this.log('上报数据', type);
+    this.log('report data type: ', type);
+    this.log('report data uuid: ', uuid);
+    this.log('report data: ', data);
 
     if (!this.initialized) {
       this.log('Monitor not initialized, please call init() first');

@@ -1,6 +1,6 @@
 {
   "name": "@rc-monitor/adapter",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "监控SDK核心模块 框架适配器",
   "main": "dist/index.js",
   "module": "dist/index.js",
