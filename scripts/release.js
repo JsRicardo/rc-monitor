@@ -151,6 +151,9 @@ let isDryRun = false;
 // 存储原始的file依赖，用于发布后恢复
 const originalFileDependencies = new Map();
 
+// 存储已发布包的最新版本
+const publishedPackageVersions = new Map();
+
 /**
  * 将包中的file协议依赖转换为版本依赖
  * @param {string} pkgName 包名
@@ -175,8 +178,11 @@ function convertFileDependenciesToVersion(pkgName) {
         // 找到对应的包名
         const depPkgName = fileVersion.replace('file:../', '').replace(/\\/g, '/');
 
-        // 使用该包的当前版本
-        const version = getPackageVersion(depPkgName);
+        // 优先使用已发布的最新版本，如果没有则使用本地版本
+        let version = publishedPackageVersions.get(depPkgName);
+        if (!version) {
+          version = getPackageVersion(depPkgName);
+        }
         pkgJson.dependencies[depName] = `^${version}`;
 
         console.log(`  - ${depName}: ${fileVersion} -> ${version}`);
@@ -194,8 +200,11 @@ function convertFileDependenciesToVersion(pkgName) {
         // 找到对应的包名
         const depPkgName = fileVersion.replace('file:../', '').replace(/\\/g, '/');
 
-        // 使用该包的当前版本
-        const version = getPackageVersion(depPkgName);
+        // 优先使用已发布的最新版本，如果没有则使用本地版本
+        let version = publishedPackageVersions.get(depPkgName);
+        if (!version) {
+          version = getPackageVersion(depPkgName);
+        }
         pkgJson.devDependencies[depName] = version;
 
         console.log(`  - ${depName}: ${fileVersion} -> ${version}`);
@@ -323,6 +332,11 @@ function publishPackage(pkgName) {
     }
 
     console.log(`✅ ${pkgName} published successfully`);
+
+    // 更新已发布包的最新版本
+    const updatedPkgJson = JSON.parse(readFileSync(join(pkgDir, 'package.json'), 'utf-8'));
+    publishedPackageVersions.set(pkgName, updatedPkgJson.version);
+    console.log(`📝 Updated published version for ${pkgName}: ${updatedPkgJson.version}`);
 
     // 发布成功后恢复file依赖
     restoreFileDependencies(pkgName);

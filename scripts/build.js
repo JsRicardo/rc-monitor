@@ -14,6 +14,45 @@ const getPackages = () => {
   });
 };
 
+// 包的依赖关系（根据依赖关系排序，先构建依赖少的包）
+const getBuildOrder = () => {
+  // 定义依赖关系
+  const dependencies = {
+    utils: [],
+    core: ['utils'],
+    adapter: ['core', 'utils'],
+    plugins: ['core', 'utils'],
+    'rc-monitor': ['core', 'adapter'],
+  };
+
+  const packages = getPackages();
+  // 构建依赖图并拓扑排序
+  const order = [];
+  const visited = new Set();
+
+  function visit(pkgName) {
+    if (visited.has(pkgName)) return;
+    visited.add(pkgName);
+
+    // 先访问依赖的包
+    const deps = dependencies[pkgName] || [];
+    for (const dep of deps) {
+      if (packages.includes(dep)) {
+        visit(dep);
+      }
+    }
+
+    order.push(pkgName);
+  }
+
+  // 对所有包进行拓扑排序
+  for (const pkgName of packages) {
+    visit(pkgName);
+  }
+
+  return order;
+};
+
 const packages = getPackages();
 
 function buildPackage(pkgName) {
@@ -34,7 +73,9 @@ function buildPackage(pkgName) {
 
 function buildAll() {
   console.log('Building all packages...');
-  packages.forEach(buildPackage);
+  const buildOrder = getBuildOrder();
+  console.log(`Build order: ${buildOrder.join(', ')}`);
+  buildOrder.forEach(buildPackage);
   console.log('✓ All packages built successfully');
 }
 
