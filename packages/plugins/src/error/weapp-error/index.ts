@@ -10,7 +10,7 @@ export class WeappErrorPlugin implements Plugin {
   private pageNotFoundHandler: ((res: any) => void) | null = null;
 
   constructor(
-    private readonly wx: Record<string, unknown>,
+    private readonly wx: any,
     private readonly inspector?: <T>(data: JsErrorData) => T
   ) {}
 

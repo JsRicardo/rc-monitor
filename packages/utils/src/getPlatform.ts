@@ -19,7 +19,7 @@ export default function getPlatform(): PlatformType {
   // 浏览器环境检测
   if (typeof window !== 'undefined' && typeof document !== 'undefined') {
     // Taro 检测
-    if (typeof (window as any).Taro !== 'undefined') {
+    if (typeof (window as any).__Monitor__Framework__.ENV_TYPE !== 'undefined') {
       return PLATFORM_TYPES.TARO;
     }
 
@@ -37,7 +37,7 @@ export default function getPlatform(): PlatformType {
   }
 
   // Taro 环境检测 (非浏览器环境)
-  if (typeof (global as any).Taro !== 'undefined') {
+  if (typeof (global as any).__Monitor__Framework__.ENV_TYPE !== 'undefined') {
     return PLATFORM_TYPES.TARO;
   }
 

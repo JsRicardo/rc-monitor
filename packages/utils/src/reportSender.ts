@@ -227,18 +227,20 @@ function wxSendFn(url: string, data: Record<string, any>, options: SenderOptions
 }
 
 function taroSendFn(url: string, data: Record<string, any>, options: SenderOptions = {}) {
-  (global as any).Taro.request({
-    url,
-    data,
-    method: 'POST',
-    ...options,
-    header: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  }).catch((error: Error) => {
-    console.error('Taro request error:', error);
-  });
+  (global as any).__Monitor__Framework__
+    ?.request({
+      url,
+      data,
+      method: 'POST',
+      ...options,
+      header: {
+        'Content-Type': 'application/json',
+        ...options.headers,
+      },
+    })
+    .catch((error: Error) => {
+      console.error('Taro request error:', error);
+    });
 }
 
 function uniSendFn(url: string, data: Record<string, any>, options: SenderOptions = {}) {
@@ -290,7 +292,5 @@ export function xhrSender(
     }
   } catch (error) {
     console.error('Platform-specific sender error:', error);
-    // 发生错误时降级到基础XHR
-    xhrSendFn(url, data, options);
   }
 }

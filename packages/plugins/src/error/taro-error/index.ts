@@ -9,7 +9,7 @@ export class TaroErrorPlugin implements Plugin {
   private rejectionHandler: ((error: PromiseRejectionEvent) => void) | null = null;
 
   constructor(
-    private readonly Taro: Record<string, unknown>,
+    private readonly Taro: any,
     private readonly inspector?: <T>(data: JsErrorData) => T
   ) {}
 

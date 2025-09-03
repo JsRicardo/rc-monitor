@@ -40,6 +40,8 @@ export class Monitor {
       retryMax: 3,
       ...config,
     };
+    // 挂载框架实例
+    (global as any).__Monitor__Framework__ = this.config.frameworkInstance;
 
     this.pluginManager = new DefaultPluginManager();
     this.reportService = new FetchReportService(this.config);

@@ -9,7 +9,7 @@ export class UniErrorPlugin implements Plugin {
   private rejectionHandler: ((event: PromiseRejectionEvent) => void) | null = null;
 
   constructor(
-    private readonly uni: Record<string, unknown>,
+    private readonly uni: any,
     private readonly inspector?: <T>(data: JsErrorData) => T
   ) {}
 

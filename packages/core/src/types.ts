@@ -31,6 +31,8 @@ export interface MonitorConfig {
   retryMax?: number;
   /** 上报接口配置 */
   reportOptions?: { timeout: number; headers: Record<string, string>; [key: string]: any };
+  /** 框架实例 */
+  frameworkInstance?: any;
 }
 
 export interface Plugin {
