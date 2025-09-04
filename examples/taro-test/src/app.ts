@@ -2,7 +2,7 @@ import { createApp } from 'vue';
 
 import './app.less';
 import { Monitor } from '@rc-monitor/rc-monitor';
-import { TaroErrorPlugin } from '@rc-monitor/plugins';
+import { TaroErrorPlugin, TaroBehaviorPlugin } from '@rc-monitor/plugins';
 import Taro from '@tarojs/taro';
 
 const monitor = Monitor.getMonitor({
@@ -12,7 +12,10 @@ const monitor = Monitor.getMonitor({
   frameworkInstance: Taro,
 });
 
-monitor.use(new TaroErrorPlugin(Taro));
+// 使用错误监控插件
+monitor.use(new TaroErrorPlugin());
+// 使用行为监控插件
+monitor.use(new TaroBehaviorPlugin());
 
 const App = createApp({
   onShow(options) {

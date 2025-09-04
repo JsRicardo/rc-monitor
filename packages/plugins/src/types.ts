@@ -51,7 +51,9 @@ export interface PerformanceData<T> {
 
 export type PerformanceReporter = <T>(data: PerformanceData<T>) => void;
 export type UserBehaviorReporter = <T>(data: UserBehaviorData<T>) => void;
+
 export type PerformanceInspector = <T, K>(data: PerformanceData<K>) => T;
+export type UserBehaviorInspector = <T, K>(data: UserBehaviorData<K>) => T;
 
 export interface PerformancePluginOption {
   metrics?: PerformanceName[];
@@ -61,4 +63,14 @@ export interface PerformancePluginOption {
 export type PerformanceObserverMap = Map<
   PerformanceName,
   (reporter: PerformanceReporter) => () => void
+>;
+
+export interface BehaviorPluginOption {
+  metrics?: UserBehaviorAction[];
+  inspector?: UserBehaviorInspector;
+}
+
+export type BehaviorObserverMap = Map<
+  UserBehaviorAction,
+  (reporter: UserBehaviorReporter) => () => void
 >;

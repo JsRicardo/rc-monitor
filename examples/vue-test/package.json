@@ -11,11 +11,11 @@
   "packageManager": "pnpm@10.14.0",
   "dependencies": {
     "vue": "^3.5.18",
-    "@rc-monitor/rc-monitor": "file:../../packages/rc-monitor",
-    "@rc-monitor/adapter": "file:../../packages/adapter",
-    "@rc-monitor/core": "file:../../packages/core",
-    "@rc-monitor/utils": "file:../../packages/utils",
-    "@rc-monitor/plugins": "file:../../packages/plugins"
+    "@rc-monitor/rc-monitor": "workspace:*",
+    "@rc-monitor/adapter": "workspace:*",
+    "@rc-monitor/core": "workspace:*",
+    "@rc-monitor/utils": "workspace:*",
+    "@rc-monitor/plugins": "workspace:*"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.1",

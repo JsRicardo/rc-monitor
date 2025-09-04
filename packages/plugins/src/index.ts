@@ -1,4 +1,4 @@
-import { BrowserBehaviorPlugin } from './behavior';
+import { BrowserBehaviorPlugin, TaroBehaviorPlugin } from './behavior';
 import { BrowserErrorPlugin, WeappErrorPlugin, TaroErrorPlugin, UniErrorPlugin } from './error';
 import { BrowserPerformancePlugin, WeappPerformancePlugin } from './performance';
 
@@ -19,4 +19,5 @@ export {
 
   // 用户行为监控插件
   BrowserBehaviorPlugin,
+  TaroBehaviorPlugin,
 };

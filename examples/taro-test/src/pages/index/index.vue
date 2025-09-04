@@ -13,5 +13,9 @@ const msg = ref('Hello world');
 onMounted(() => {
   console.log('taro', Taro);
   console.log('global.__Monitor__Framework__', global.__Monitor__Framework__);
+  Taro.getCurrentPages()[0];
+  Taro.getDeviceInfo().then(res => {
+    console.log('getDeviceInfo', res);
+  });
 });
 </script>

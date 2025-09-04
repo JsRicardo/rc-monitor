@@ -31,7 +31,8 @@
   "peerDependencies": {},
   "devDependencies": {
     "@types/lodash-es": "^4.17.6",
-    "@types/uni-app": "^1.4.8"
+    "@types/uni-app": "^1.4.8",
+    "@tarojs/taro": "4.1.6"
   },
   "publishConfig": {
     "access": "public"
