@@ -21,7 +21,7 @@
   "license": "MIT",
   "packageManager": "pnpm@10.14.0",
   "dependencies": {
-    "@rc-monitor/utils": "file:../utils"
+    "@rc-monitor/utils": "workspace:*"
   },
   "devDependencies": {},
   "publishConfig": {

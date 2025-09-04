@@ -23,8 +23,8 @@
   "license": "MIT",
   "packageManager": "pnpm@10.14.0",
   "dependencies": {
-    "@rc-monitor/core": "file:../core",
-    "@rc-monitor/utils": "file:../utils"
+    "@rc-monitor/core": "workspace:*",
+    "@rc-monitor/utils": "workspace:*"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",

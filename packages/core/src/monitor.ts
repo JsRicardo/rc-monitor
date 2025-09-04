@@ -38,6 +38,7 @@ export class Monitor {
       maxCacheSize: 20,
       debug: false,
       retryMax: 3,
+      sampleRate: 1,
       ...config,
     };
     // 挂载框架实例
@@ -95,8 +96,8 @@ export class Monitor {
       return;
     }
 
-    // 控制采样率
-    if (Math.random() > (this.config.sampleRate || 1)) {
+    // 控制采样率  js报错通过uuid控制
+    if (type !== 'js-error' && Math.random() > this.config.sampleRate!) {
       return;
     }
 
@@ -116,8 +117,9 @@ export class Monitor {
       this.log('Data queue is full, dropping oldest data');
     }
 
+    this.log(`Data reported: ${type}`, reportData);
+
     this.dataQueue.enqueueUnique(reportData);
-    this.log(`Data reported: ${type}`, data);
 
     // 如果缓存数据达到一定数量，立即上报
     if (this.dataQueue.length >= this.config.maxCacheSize! / 2) {

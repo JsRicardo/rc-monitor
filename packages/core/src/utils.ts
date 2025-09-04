@@ -11,7 +11,7 @@
 export function createLogger(debug: boolean, prefix: string = 'Monitor') {
   return (message: string, data?: any) => {
     if (debug) {
-      console.log(`[${prefix}] ${message}`, data || '');
+      console.log(`🚀🚀🚀%c[${prefix}] ${message}: `, 'color:green', data || '');
     }
   };
 }

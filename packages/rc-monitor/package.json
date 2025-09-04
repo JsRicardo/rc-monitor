@@ -22,8 +22,8 @@
   "license": "MIT",
   "packageManager": "pnpm@10.14.0",
   "dependencies": {
-    "@rc-monitor/core": "file:../core",
-    "@rc-monitor/adapter": "file:../adapter"
+    "@rc-monitor/core": "workspace:*",
+    "@rc-monitor/adapter": "workspace:*"
   },
   "publishConfig": {
     "access": "public"

@@ -23,8 +23,8 @@
   "license": "MIT",
   "packageManager": "pnpm@10.14.0",
   "dependencies": {
-    "@rc-monitor/core": "file:../core",
-    "@rc-monitor/utils": "file:../utils",
+    "@rc-monitor/core": "workspace:*",
+    "@rc-monitor/utils": "workspace:*",
     "web-vitals": "^5.1.0",
     "lodash-es": "^4.17.21"
   },

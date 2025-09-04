@@ -26,11 +26,16 @@ export class FetchReportService implements ReportService {
    * @param data 要上报的数据数组
    */
   async sendData(data: ReportData[]): Promise<void> {
+    if (data.length === 0) return;
+
+    if (typeof this.config.reportFunction === 'function') {
+      return this.config.reportFunction(data);
+    }
+
     if (!this.config.endpoint) {
       console.error('No endpoint provided for report service');
       return;
     }
-    if (data.length === 0) return;
 
     try {
       const reporter = this.reporterTypeMap.get(this.config.reporterType || 'fetch');
