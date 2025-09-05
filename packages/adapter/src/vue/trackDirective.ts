@@ -1,6 +1,6 @@
 import { Monitor, REPORT_TYPE } from '@rc-monitor/core';
 
-import { TrackParams } from '.';
+import { TrackParams } from './types';
 
 import type { App, DirectiveBinding } from 'vue';
 
