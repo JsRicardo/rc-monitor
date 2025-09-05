@@ -12,7 +12,7 @@ function generatePageId(route: string): string {
 
 export default function onPV(reporter: UserBehaviorReporter) {
   // 从全局对象获取 Taro 实例
-  const Taro = (global as any).__Monitor__Framework__;
+  const Taro = (globalThis as any).__Monitor__Framework__;
 
   if (!Taro) {
     console.error('Taro instance not found, Make sure you are config frameworkInstance correctly.');

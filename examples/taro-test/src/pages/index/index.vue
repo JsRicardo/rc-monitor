@@ -22,7 +22,7 @@ const msg = ref('Hello world');
 
 onMounted(() => {
   console.log('taro', Taro);
-  console.log('global.__Monitor__Framework__', global.__Monitor__Framework__);
+  console.log('globalThis.__Monitor__Framework__', globalThis.__Monitor__Framework__);
   getCurrentPages()[0];
   const res = getDeviceInfo();
   console.log('getDeviceInfo', res);
