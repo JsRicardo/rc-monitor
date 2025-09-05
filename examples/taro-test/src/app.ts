@@ -4,6 +4,7 @@ import './app.less';
 import { Monitor } from '@rc-monitor/rc-monitor';
 import { TaroErrorPlugin, TaroBehaviorPlugin } from '@rc-monitor/plugins';
 import Taro from '@tarojs/taro';
+import { onAppShow } from '@tarojs/taro';
 
 const monitor = Monitor.getMonitor({
   appId: '123',
@@ -16,6 +17,11 @@ const monitor = Monitor.getMonitor({
 monitor.use(new TaroErrorPlugin());
 // 使用行为监控插件
 monitor.use(new TaroBehaviorPlugin());
+
+onAppShow(res => {
+  // Taro.getCurrentInstance().router?.path;
+  console.error('onAppShow', Taro.getCurrentInstance());
+});
 
 const App = createApp({
   onShow(options) {

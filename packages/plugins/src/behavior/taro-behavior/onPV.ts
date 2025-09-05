@@ -1,5 +1,3 @@
-import Taro from '@tarojs/taro';
-
 import { USER_BEHAVIOR_ACTION } from '../../constant';
 import { UserBehaviorReporter } from '../../types';
 
@@ -13,44 +11,49 @@ function generatePageId(route: string): string {
 }
 
 export default function onPV(reporter: UserBehaviorReporter) {
-  // 处理页面显示事件
-  const handleAppShow = () => {
-    try {
-      const currentPages = Taro.getCurrentPages();
-      if (currentPages.length > 0) {
-        const currentPage = currentPages[currentPages.length - 1];
-        const systemInfo = Taro.getSystemInfoSync();
+  // 从全局对象获取 Taro 实例
+  const Taro = (global as any).__Monitor__Framework__;
 
-        reporter({
-          action: USER_BEHAVIOR_ACTION.PV,
-          url: currentPage.route || '',
-          timestamp: Date.now(),
-          eventType: 'pageLoad',
-          element: 'app',
-          extras: {
-            pageId: generatePageId(currentPage.route || ''),
-            title: currentPage?.$getAppWebviewTitle?.() || document.title || '',
-            screenWidth: systemInfo.windowWidth || 0,
-            screenHeight: systemInfo.windowHeight || 0,
-            platform: systemInfo.platform || '',
-            pageData: currentPage.data || {},
-            // 可以添加更多页面相关信息
-          },
-        });
-      }
+  if (!Taro) {
+    console.error('Taro instance not found, Make sure you are config frameworkInstance correctly.');
+    return () => {};
+  }
+
+  // 监听App显示事件
+  const handleAppShow = (res: any) => {
+    try {
+      let systemInfo = Taro.getSystemInfoSync?.() || {};
+      const currentPageInfo = Taro.getCurrentPages?.()?.router || {};
+
+      reporter({
+        action: USER_BEHAVIOR_ACTION.PV,
+        url: currentPageInfo.path || 'unknown',
+        timestamp: Date.now(),
+        eventType: 'pageLoad',
+        element: 'app',
+        extras: {
+          pageId: generatePageId(currentPageInfo.path || 'unknown'),
+          screenWidth: systemInfo.windowWidth || 0,
+          screenHeight: systemInfo.windowHeight || 0,
+          platform: systemInfo.platform || '',
+          pageData: currentPageInfo.params || {},
+          scene: res.scene,
+        },
+      });
     } catch (error) {
       console.error('Error in PV tracking:', error);
     }
   };
 
-  // 监听App显示事件
-  Taro.onAppShow(handleAppShow);
+  // 添加App显示事件监听
+  if (typeof Taro.onAppShow === 'function') {
+    Taro.onAppShow(handleAppShow);
+  }
 
-  // 立即执行一次以捕获当前页面
-  handleAppShow();
-
-  // 返回清理函数
+  // 返回清理函数，移除事件监听
   return () => {
-    Taro.offAppShow(handleAppShow);
+    if (typeof Taro.offAppShow === 'function') {
+      Taro.offAppShow(handleAppShow);
+    }
   };
 }

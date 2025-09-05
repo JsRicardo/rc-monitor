@@ -23,6 +23,7 @@ export class BaseBehaviorPlugin implements Plugin {
 
     behaviorMetrics.forEach(metric => {
       const observer = this.observerMap!.get(metric);
+
       if (observer) {
         const cleanupFn = observer(this.reporter.bind(this));
         if (cleanupFn) {

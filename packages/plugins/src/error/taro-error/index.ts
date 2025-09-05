@@ -1,6 +1,5 @@
 import { Plugin, Monitor, REPORT_TYPE } from '@rc-monitor/core';
 import { createErrorUuid, createJsErrorData, JsErrorData } from '@rc-monitor/utils';
-import Taro from '@tarojs/taro';
 
 import { PLUGIN_NAMES } from '../../constant';
 export class TaroErrorPlugin implements Plugin {
@@ -12,9 +11,12 @@ export class TaroErrorPlugin implements Plugin {
   constructor(private readonly inspector?: <T>(data: JsErrorData) => T) {}
 
   install(monitor: Monitor): void {
-    // 获取Taro全局对象
+    const Taro = (global as any).__Monitor__Framework__;
+
     if (!Taro) {
-      console.warn('TaroErrorPlugin: Taro global object not found, plugin not installed');
+      console.error(
+        'Taro instance not found, Make sure you are config frameworkInstance correctly.'
+      );
       return;
     }
 
@@ -48,6 +50,7 @@ export class TaroErrorPlugin implements Plugin {
   }
 
   uninstall(): void {
+    const Taro = (global as any).__Monitor__Framework__;
     if (!Taro) {
       return;
     }

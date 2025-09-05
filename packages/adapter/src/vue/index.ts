@@ -1,41 +1,9 @@
 import { Monitor, REPORT_TYPE } from '@rc-monitor/core';
-import { createErrorUuid, createJsErrorData, JsErrorData } from '@rc-monitor/utils';
+import { createErrorUuid, createJsErrorData } from '@rc-monitor/utils';
 import { App, inject, InjectionKey } from 'vue';
 
 import trackDirective from './trackDirective';
-
-export interface TrackParams {
-  action: string;
-  timestamp: number;
-  eventType: string;
-  element: string;
-  extras?: Record<string, any>;
-}
-
-/**
- * Vue适配器配置项
- */
-export interface VueAdapterOptions {
-  /** 是否启用错误捕获功能 */
-  enableErrorCapture?: boolean;
-  /** 是否启用行为跟踪指令 */
-  enableTrackDirective?: boolean;
-  /** 是否提供monitor实例 */
-  provide?: boolean;
-  /** 是否全局注入monitor实例 */
-  injectGlobal?: boolean;
-  /** 自定义错误数据处理函数 */
-  errorInspector?: <T>(error: JsErrorData | TrackParams) => T;
-  /** 自定义监控器注入的key */
-  monitorInjectKey?: InjectionKey<Monitor>;
-}
-
-/**
- * Vue适配器实例接口
- */
-export interface Vue3AdapterInstance {
-  install(app: App): void;
-}
+import { Vue3AdapterInstance, VueAdapterOptions } from './types';
 
 const DEFAULT_MONITOR_INJECT_KEY: InjectionKey<Monitor> = Symbol.for('monitor');
 
