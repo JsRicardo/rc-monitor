@@ -11,7 +11,7 @@ import Taro, { getCurrentPages, getDeviceInfo, getCurrentInstance } from '@taroj
 const msg = ref('Hello world 2');
 
 onMounted(() => {
-  console.error('🚀 ~ index.vue:13 ~ monitor:', Taro === global.__Monitor__Framework__);
+  console.error('🚀 ~ index.vue:13 ~ monitor:', Taro === globalThis.__Monitor__Framework__);
   console.error('🚀 ~ index.vue:14 ~ getCurrentPages:', getCurrentInstance());
 });
 </script>

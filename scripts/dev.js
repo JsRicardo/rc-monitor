@@ -36,9 +36,7 @@ process.on('SIGTERM', cleanup);
 
 function devPackage(pkgName) {
   console.log(`Starting dev mode for ${pkgName}...`);
-
-  const externalFlag = pkgName === 'plugins' ? '--external @rc-monitor/core' : '';
-  const command = `npx tsup packages/${pkgName}/src/index.ts --dts --format esm,cjs --target es2020 --out-dir packages/${pkgName}/dist --tsconfig tsconfig.json --watch ${externalFlag}`;
+  const command = `npx tsup packages/${pkgName}/src/index.ts --config tsup.config.ts --out-dir packages/${pkgName}/dist --watch`;
 
   const proc = spawn('cmd.exe', ['/c', command], {
     stdio: 'inherit',

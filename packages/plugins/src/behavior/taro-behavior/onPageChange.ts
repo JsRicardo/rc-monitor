@@ -18,7 +18,7 @@ enum RouterFn {
 
 // 获取当前页面信息
 function getCurrentPageInfo() {
-  const Taro = (global as any).__Monitor__Framework__;
+  const Taro = (globalThis as any).__Monitor__Framework__;
   try {
     const pages = Taro.getCurrentPages?.() || [];
     if (pages.length > 0) {
@@ -63,7 +63,7 @@ let previousPage: PreviousPageInfo;
 
 // 通用的路由处理函数
 function handleRouteChange(reporter: UserBehaviorReporter, methodName: string, options: any) {
-  const Taro = (global as any).__Monitor__Framework__;
+  const Taro = (globalThis as any).__Monitor__Framework__;
 
   try {
     // 获取系统信息
@@ -105,7 +105,7 @@ function handleRouteChange(reporter: UserBehaviorReporter, methodName: string, o
 }
 
 export default function onPageChange(reporter: UserBehaviorReporter) {
-  const Taro = (global as any).__Monitor__Framework__;
+  const Taro = (globalThis as any).__Monitor__Framework__;
   if (!Taro) {
     console.error('Taro instance not found, Make sure you are config frameworkInstance correctly.');
     return () => {};

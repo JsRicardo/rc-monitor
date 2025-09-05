@@ -210,7 +210,7 @@ function xhrSendFn(url: string, data: Record<string, any>, options: SenderOption
 }
 
 function wxSendFn(url: string, data: Record<string, any>, options: SenderOptions = {}) {
-  (global as any).wx
+  (globalThis as any).wx
     .request({
       url,
       data,
@@ -227,7 +227,7 @@ function wxSendFn(url: string, data: Record<string, any>, options: SenderOptions
 }
 
 function taroSendFn(url: string, data: Record<string, any>, options: SenderOptions = {}) {
-  (global as any).__Monitor__Framework__
+  (globalThis as any).__Monitor__Framework__
     ?.request({
       url,
       data,
@@ -244,7 +244,7 @@ function taroSendFn(url: string, data: Record<string, any>, options: SenderOptio
 }
 
 function uniSendFn(url: string, data: Record<string, any>, options: SenderOptions = {}) {
-  (global as any).uni
+  (globalThis as any).uni
     .request({
       url,
       data,

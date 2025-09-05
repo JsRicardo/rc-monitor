@@ -11,7 +11,7 @@ export class TaroErrorPlugin implements Plugin {
   constructor(private readonly inspector?: <T>(data: JsErrorData) => T) {}
 
   install(monitor: Monitor): void {
-    const Taro = (global as any).__Monitor__Framework__;
+    const Taro = (globalThis as any).__Monitor__Framework__;
 
     if (!Taro) {
       console.error(
@@ -50,7 +50,7 @@ export class TaroErrorPlugin implements Plugin {
   }
 
   uninstall(): void {
-    const Taro = (global as any).__Monitor__Framework__;
+    const Taro = (globalThis as any).__Monitor__Framework__;
     if (!Taro) {
       return;
     }

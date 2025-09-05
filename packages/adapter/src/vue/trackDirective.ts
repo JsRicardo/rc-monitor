@@ -13,6 +13,9 @@ export default function (app: App, monitor: Monitor, errorInspector?: <T>(data: 
   // 注册v-track指令
   app.directive('track', {
     mounted: (el, binding) => {
+      console.error('🚀 ~ trackDirective.ts:17 ~ binding:', binding);
+
+      console.error('🚀 ~ trackDirective.ts:14 ~ el:', el);
       bindTrackEvent(el, binding, monitor, errorInspector);
     },
     updated: (el, binding) => {
@@ -112,6 +115,7 @@ function removeTrackEvent(el: HTMLElement): void {
 function getTrackParams(el: HTMLElement): Record<string, any> {
   const params: Record<string, any> = {};
   const dataset = el.dataset;
+  console.error('🚀 ~ getTrackParams ~ dataset:', dataset);
 
   if (!dataset) {
     return params;
