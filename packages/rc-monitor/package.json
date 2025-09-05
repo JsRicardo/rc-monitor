@@ -20,6 +20,14 @@
   ],
   "author": "Js Ricardo",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JsRicardo/rc-monitor.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JsRicardo/rc-monitor/issues"
+  },
+  "homepage": "https://github.com/JsRicardo/rc-monitor/blob/master/README.md",
   "packageManager": "pnpm@10.14.0",
   "dependencies": {
     "@rc-monitor/core": "workspace:*",
