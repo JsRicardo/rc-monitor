@@ -11,6 +11,7 @@
   "packageManager": "pnpm@10.14.0",
   "dependencies": {
     "vue": "^3.5.18",
+    "axios": "^1.7.7",
     "@rc-monitor/rc-monitor": "workspace:*",
     "@rc-monitor/adapter": "workspace:*",
     "@rc-monitor/core": "workspace:*",

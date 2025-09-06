@@ -5,17 +5,11 @@ import {
   USER_BEHAVIOR_ACTION,
 } from './constant';
 
-/** 资源加载错误数据 */
-export interface ResourceErrorData {
-  /** 资源类型 */
-  resourceType: 'script' | 'link' | 'img' | 'audio' | 'video' | 'iframe';
-  /** 资源URL */
-  src: string;
-  /** 错误消息 */
-  message: string;
-}
-export type UserBehaviorAction = (typeof USER_BEHAVIOR_ACTION)[keyof typeof USER_BEHAVIOR_ACTION];
+import type { ErrorTypeMetric, RCErrorData } from '@rc-monitor/utils';
+
 /** 用户行为数据 */
+export type UserBehaviorAction = (typeof USER_BEHAVIOR_ACTION)[keyof typeof USER_BEHAVIOR_ACTION];
+
 export interface UserBehaviorData<T> {
   /** 行为类型 */
   action: UserBehaviorAction;
@@ -31,11 +25,11 @@ export interface UserBehaviorData<T> {
   extras?: T;
 }
 
+/** 性能数据 */
 export type PerformanceName = (typeof PERFORMANCE_NAME)[keyof typeof PERFORMANCE_NAME];
 export type PerformanceMetric = (typeof PERFORMANCE_METRIC)[keyof typeof PERFORMANCE_METRIC];
 export type PerformanceUnit = (typeof PERFORMANCE_UNIT)[keyof typeof PERFORMANCE_UNIT];
 
-/** 性能数据 */
 export interface PerformanceData<T> {
   /** 性能指标类型 */
   metric: PerformanceMetric;
@@ -51,9 +45,11 @@ export interface PerformanceData<T> {
 
 export type PerformanceReporter = <T>(data: PerformanceData<T>) => void;
 export type UserBehaviorReporter = <T>(data: UserBehaviorData<T>) => void;
+export type ErrorReporter = (data: RCErrorData) => void;
 
 export type PerformanceInspector = <T, K>(data: PerformanceData<K>) => T;
 export type UserBehaviorInspector = <T, K>(data: UserBehaviorData<K>) => T;
+export type ErrorInspector = <T>(data: RCErrorData) => T;
 
 export interface PerformancePluginOption {
   metrics?: PerformanceName[];
@@ -74,3 +70,13 @@ export type BehaviorObserverMap = Map<
   UserBehaviorAction,
   (reporter: UserBehaviorReporter) => () => void
 >;
+
+export interface ErrorPluginOption {
+  metrics?: ErrorTypeMetric[];
+  inspector?: ErrorInspector;
+}
+
+export interface BasePluginOption {
+  metrics?: string[];
+  inspector?: (data: any) => void;
+}

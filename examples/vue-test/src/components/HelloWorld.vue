@@ -12,11 +12,13 @@ const count = ref(0);
 
 function onClickCount(e: Event) {
   count.value++;
+  count.value = asdasdasd;
   monitor.report('user-behavior', { type: 'click', target: (e.target as HTMLElement).tagName });
   console.error('monitor', monitor);
 }
 
 function handleEdit() {
+  throw new Error('error');
   count.value++;
 }
 </script>
@@ -26,7 +28,7 @@ function handleEdit() {
 
   <div class="card">
     <button type="button" @click="onClickCount">count is {{ count }}</button>
-    <p v-track:click="handleEdit" data-track-name="edit" data-track-data="111">
+    <p v-track:click data-track-name="edit" data-track-data="111" @click="handleEdit">
       Edit
       <code>components/HelloWorld.vue</code> to test HMR
     </p>

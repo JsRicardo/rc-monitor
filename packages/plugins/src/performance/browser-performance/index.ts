@@ -1,5 +1,7 @@
+import { REPORT_TYPE } from '@rc-monitor/core';
+
+import BasePlugin from '../../BasePlugin';
 import { PERFORMANCE_NAME, PLUGIN_NAMES } from '../../constant';
-import BasePlugin from '../BasePlugin';
 
 import { observeCLS } from './observeCLS';
 import { observeEntries } from './observeEntries';
@@ -16,8 +18,9 @@ import type { PerformanceObserverMap, PerformancePluginOption } from '../../type
  * 浏览器性能插件
  * 用于采集浏览器性能指标
  */
-export class BrowserPerformancePlugin extends BasePlugin {
+export class BrowserPerformancePlugin extends BasePlugin<PerformancePluginOption> {
   name = PLUGIN_NAMES.BROWSER_PERFORMANCE;
+  protected reportType = REPORT_TYPE.PERFORMANCE;
 
   protected readonly observerMap = new Map([
     [PERFORMANCE_NAME.FCP, observeFCP],
@@ -30,8 +33,4 @@ export class BrowserPerformancePlugin extends BasePlugin {
     [PERFORMANCE_NAME.LOAD, observeLoad],
     [PERFORMANCE_NAME.ENTRIES, observeEntries],
   ]) as PerformanceObserverMap;
-
-  constructor(options?: PerformancePluginOption) {
-    super(options);
-  }
 }

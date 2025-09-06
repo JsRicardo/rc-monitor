@@ -1,6 +1,6 @@
 import ERRParser, { StackFrame } from 'error-stack-parser';
 
-import type { JsErrorData, ParsedError } from './types';
+import type { RCErrorData, ParsedError, SubErrorTypeMetric } from '../types';
 
 /**
  * 解析堆栈字符串为结构化堆栈帧
@@ -28,7 +28,7 @@ function parseStackFrames(error: Error): StackFrame[] {
 export function parseError(error: Error): ParsedError {
   const parsedError: ParsedError = {
     message: error?.message || String(error),
-    name: error?.name || 'Error',
+    name: (error?.name || 'Error') as SubErrorTypeMetric,
     stack: error?.stack,
     rawError: error,
   };
@@ -76,15 +76,22 @@ export function isError(error: unknown): error is Error {
  * @param error 错误数据
  * @returns uuid
  */
-export function createErrorUuid(error: JsErrorData): string {
-  const { message, filename, lineno, colno } = error;
-  return `uuid-${message}-${filename}-${lineno}-${colno}`;
+export function createErrorUuid({
+  message,
+  fileName,
+  lineNumber,
+  columnNumber,
+}: ParsedError): string {
+  return `uuid-${message}-${fileName}-${lineNumber}-${columnNumber}`;
 }
 
 /**
  * 创建JsErrorData对象
+ * @param error 错误对象
+ * @param errorType 错误类型
+ * @returns JsErrorData对象
  */
-export function createJsErrorData(error: Error, errorType: JsErrorData['errorType']): JsErrorData {
+export function createJsErrorData(error: Error, errorType: RCErrorData['errorType']): RCErrorData {
   let parsedError = null;
 
   try {
@@ -95,10 +102,13 @@ export function createJsErrorData(error: Error, errorType: JsErrorData['errorTyp
     }
 
     // 如果解析出位置信息，使用解析后的信息
-    const { message, fileName, lineNumber, columnNumber } = parsedError;
+    const { message, fileName, lineNumber, columnNumber, name } = parsedError;
 
     return {
+      uuid: createErrorUuid(parsedError),
       message,
+      errorType,
+      subErrorType: name,
       filename: fileName,
       lineno: lineNumber,
       colno: columnNumber,
@@ -113,10 +123,9 @@ export function createJsErrorData(error: Error, errorType: JsErrorData['errorTyp
               parsedError: parsedError,
             })
           : undefined,
-      errorType,
     };
   } catch (e) {
     console.log(e);
-    return {} as JsErrorData;
+    return {} as RCErrorData;
   }
 }

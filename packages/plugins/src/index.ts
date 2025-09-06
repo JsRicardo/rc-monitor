@@ -1,5 +1,5 @@
 import { BrowserBehaviorPlugin, TaroBehaviorPlugin } from './behavior';
-import { BrowserErrorPlugin, WeappErrorPlugin, TaroErrorPlugin, UniErrorPlugin } from './error';
+import { BrowserErrorPlugin, WXAppErrorPlugin, TaroErrorPlugin, UniErrorPlugin } from './error';
 import { BrowserPerformancePlugin, WeappPerformancePlugin } from './performance';
 
 /**
@@ -9,7 +9,7 @@ import { BrowserPerformancePlugin, WeappPerformancePlugin } from './performance'
 export {
   // 错误监控插件
   BrowserErrorPlugin,
-  WeappErrorPlugin,
+  WXAppErrorPlugin,
   TaroErrorPlugin,
   UniErrorPlugin,
 

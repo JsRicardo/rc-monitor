@@ -4,7 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RC-Monitor 浏览器错误测试</title>
-    <script src="xxxx.js"></script>
+    <script src="http://github.com/xxxx.js"></script>
+    <!-- 通过unpkg引入axios -->
+    <script src="https://unpkg.com/axios@1.6.2/dist/axios.min.js"></script>
     <style>
       body {
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -105,6 +107,13 @@
       </div>
 
       <div class="test-section">
+        <h3>网络错误</h3>
+        <button onclick="testNetworkError()">触发 接口错误</button>
+        <button onclick="testAxiosError()">触发 Axios 接口错误</button>
+        <button onclick="testAxiosPromiseError()">触发 Axios Promise 未捕获错误</button>
+      </div>
+
+      <div class="test-section">
         <h3>Promise Rejection 测试</h3>
         <button onclick="testPromiseRejection()">触发 Promise Rejection</button>
         <button onclick="testAsyncError()">触发 Async/Await 错误</button>
@@ -127,29 +136,20 @@
       </div>
     </div>
 
-    <script type="module">
-      import { Monitor } from '../../packages/rc-monitor/dist/index.js';
-      import {
-        BrowserErrorPlugin,
-        BrowserPerformancePlugin,
-        BrowserBehaviorPlugin,
-      } from '../../packages/plugins/dist/index.js';
+    <script src="../../packages/rc-monitor/dist/index.cjs"></script>
+    <script src="../../packages/utils/dist/index.cjs"></script>
+    <script src="../../packages/plugins/dist/index.cjs"></script>
 
-      // 初始化监控器
+    <script>
       const monitor = Monitor.getMonitor({
+        appId: '123',
         endpoint: 'http://localhost:3000/api/error',
-        appId: 'test-app',
-        environment: 'development',
-        debug: true,
+        reporterType: 'xhr',
       });
+
       monitor.use(new BrowserErrorPlugin());
-      monitor.use(new BrowserPerformancePlugin());
-      monitor.use(new BrowserBehaviorPlugin());
-
-      setInterval(() => {
-        monitor.flush();
-      }, 1000);
-
+      monitor.use(new BrowserBehaviorPlugin({ metrics: ['input'] }));
+      monitor.use(new BrowserPerformancePlugin({ metrics: ['lcp', 'entries'] }));
       // 自定义控制台输出
       function logToConsole(message, type = 'info') {
         const consoleElement = document.getElementById('console');
@@ -158,6 +158,36 @@
         logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
         consoleElement.appendChild(logEntry);
         consoleElement.scrollTop = consoleElement.scrollHeight;
+      }
+
+      function testNetworkError() {
+        logToConsole('触发 接口错误...', 'info');
+        // 测试1: 使用XHR但不处理错误，让它触发全局事件
+        const xhr1 = new XMLHttpRequest();
+        xhr1.open('POST', 'https://nonexistent-api.com/data1', true);
+        xhr1.send(JSON.stringify({ name: 'test1' }));
+      }
+
+      // 使用axios测试网络请求错误
+      function testAxiosError() {
+        logToConsole('触发 Axios 接口错误...', 'info');
+        // 有错误处理的axios请求
+        axios
+          .get('https://nonexistent-api.com/data')
+          .then(function (response) {
+            logToConsole('请求成功', 'success');
+          })
+          .catch(function (error) {
+            logToConsole('Axios捕获到错误: ' + error.message, 'error');
+            // 这里错误被处理了，不会触发全局unhandledrejection
+          });
+      }
+
+      // 使用axios测试未捕获的Promise错误
+      function testAxiosPromiseError() {
+        logToConsole('触发 Axios Promise 未捕获错误...', 'info');
+        // 没有错误处理的axios请求，应该触发全局unhandledrejection
+        axios.get('https://nonexistent-api.com/data');
       }
 
       // 测试函数

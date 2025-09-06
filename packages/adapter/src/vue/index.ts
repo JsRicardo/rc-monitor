@@ -1,5 +1,5 @@
 import { Monitor, REPORT_TYPE } from '@rc-monitor/core';
-import { createErrorUuid, createJsErrorData } from '@rc-monitor/utils';
+import { createJsErrorData } from '@rc-monitor/utils';
 import { App, inject, InjectionKey } from 'vue';
 
 import trackDirective from './trackDirective';
@@ -35,9 +35,8 @@ export default function vue3Adapter(
   const handleVueError = (error: unknown): void => {
     try {
       const errData = createJsErrorData(error as Error, REPORT_TYPE.JS_ERROR);
-      const uuid = createErrorUuid(errData);
       const res = mergedOptions.errorInspector?.(errData) || errData;
-      monitor.report(REPORT_TYPE.VUE_ERROR, res, uuid);
+      monitor.report(REPORT_TYPE.VUE_ERROR, res);
     } catch (e) {
       console.error('Error in Vue error handler:', e);
     }

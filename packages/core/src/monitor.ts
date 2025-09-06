@@ -2,12 +2,12 @@
  * 监控SDK核心类
  * 负责数据收集、处理、上报和插件管理
  */
+import { createLogger } from '@rc-monitor/utils';
 
 import { DataQueue } from './data-queue';
 import { DefaultPluginManager } from './plugin-manager';
 import { FetchReportService } from './report-service';
 import { MonitorConfig, Plugin, ReportData, ReportType } from './types';
-import { createLogger } from './utils';
 
 type ReportDataExtra = ReportData & { retryCount?: number };
 
@@ -86,9 +86,8 @@ export class Monitor {
    * @param type 数据类型
    * @param data 数据内容
    */
-  public report(type: ReportType, data: any, uuid?: string): void {
+  public report(type: ReportType, data: any): void {
     this.log('report data type: ', type);
-    this.log('report data uuid: ', uuid);
     this.log('report data: ', data);
 
     if (!this.initialized) {
@@ -106,7 +105,6 @@ export class Monitor {
 
     const reportData: ReportData = {
       type,
-      uuid,
       data: formattedData,
       timestamp: Date.now(),
       appId: this.config.appId,

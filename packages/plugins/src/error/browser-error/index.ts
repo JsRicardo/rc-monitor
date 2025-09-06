@@ -1,47 +1,46 @@
-import { Plugin, Monitor, REPORT_TYPE } from '@rc-monitor/core';
-import { createErrorUuid, createJsErrorData, type JsErrorData } from '@rc-monitor/utils';
+import { REPORT_TYPE } from '@rc-monitor/core';
+import { createJsErrorData, ERROR_TYPE_METRIC } from '@rc-monitor/utils';
 
+import BasePlugin from '../../BasePlugin';
 import { PLUGIN_NAMES } from '../../constant';
-export class BrowserErrorPlugin implements Plugin {
-  name = PLUGIN_NAMES.BROWSER_ERROR;
+import { ErrorPluginOption, ErrorReporter } from '../../types';
 
-  private errorHandler: ((event: ErrorEvent) => void) | null = null;
-  private rejectionHandler: ((event: PromiseRejectionEvent) => void) | null = null;
-
-  constructor(private readonly inspector?: <T>(data: JsErrorData) => T) {}
-
-  install(monitor: Monitor): void {
-    // 捕获JavaScript运行时错误
-    this.errorHandler = (event: ErrorEvent) => {
+function observeJsError(reporter: ErrorReporter) {
+  const handler = (event: ErrorEvent) => {
+    if (event) {
       const errorData = createJsErrorData(event.error, REPORT_TYPE.JS_ERROR);
-      const uuid = createErrorUuid(errorData);
-      const data = this.inspector?.(errorData) || errorData;
-      monitor.report(REPORT_TYPE.JS_ERROR, data, uuid);
-    };
+      reporter(errorData);
+    }
+  };
 
-    // 捕获未处理的Promise拒绝
-    this.rejectionHandler = (event: PromiseRejectionEvent) => {
+  window.addEventListener('error', handler, true);
+
+  return () => {
+    window.removeEventListener('error', handler, true);
+  };
+}
+
+function ObservePromiseError(reporter: ErrorReporter) {
+  const handler = (event: PromiseRejectionEvent) => {
+    if (event) {
       const errorData = createJsErrorData(event.reason, REPORT_TYPE.PROMISE_REJECTION);
-      const uuid = createErrorUuid(errorData);
-      const data = this.inspector?.(errorData) || errorData;
-      monitor.report(REPORT_TYPE.PROMISE_REJECTION, data, uuid);
-    };
-
-    window.addEventListener('error', this.errorHandler);
-    window.addEventListener('unhandledrejection', this.rejectionHandler);
-
-    console.log('Browser error plugin installed');
-  }
-
-  uninstall(): void {
-    // 清理事件监听器
-    if (this.errorHandler) {
-      window.removeEventListener('error', this.errorHandler);
+      reporter(errorData);
     }
-    if (this.rejectionHandler) {
-      window.removeEventListener('unhandledrejection', this.rejectionHandler);
-    }
+  };
 
-    console.log('Browser error plugin uninstalled');
-  }
+  window.addEventListener('unhandledrejection', handler);
+
+  return () => {
+    window.removeEventListener('unhandledrejection', handler);
+  };
+}
+
+export class BrowserErrorPlugin extends BasePlugin<ErrorPluginOption> {
+  name = PLUGIN_NAMES.BROWSER_ERROR;
+  protected reportType = REPORT_TYPE.JS_ERROR;
+
+  protected readonly observerMap = new Map([
+    [ERROR_TYPE_METRIC.JS_ERROR, observeJsError],
+    [ERROR_TYPE_METRIC.PROMISE_REJECTION, ObservePromiseError],
+  ]);
 }

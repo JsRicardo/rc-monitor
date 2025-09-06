@@ -1,4 +1,3 @@
-import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App.tsx';
@@ -8,6 +7,7 @@ import {
   BrowserBehaviorPlugin,
   BrowserPerformancePlugin,
 } from '@rc-monitor/plugins';
+import React from 'react';
 
 const monitor = Monitor.getMonitor({
   appId: '123',
@@ -22,9 +22,10 @@ monitor.use(new BrowserPerformancePlugin());
 const { ErrorBoundary } = ReactAdapter(monitor);
 
 createRoot(document.getElementById('root')!).render(
-  <ErrorBoundary>
-    <StrictMode>
+  <React.StrictMode>
+    // @ts-ignore
+    <ErrorBoundary>
       <App />
-    </StrictMode>
-  </ErrorBoundary>
+    </ErrorBoundary>
+  </React.StrictMode>
 );

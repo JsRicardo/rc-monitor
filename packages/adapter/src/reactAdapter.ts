@@ -1,5 +1,5 @@
 import { REPORT_TYPE, type Monitor } from '@rc-monitor/core';
-import { createErrorUuid, createJsErrorData, type JsErrorData } from '@rc-monitor/utils';
+import { createJsErrorData, type RCErrorData } from '@rc-monitor/utils';
 import React from 'react';
 
 /**
@@ -25,7 +25,7 @@ export interface ErrorBoundaryState {
  * @param inspector 可选的数据检查器函数，用于处理错误数据
  * @returns React错误边界组件类
  */
-export default function reactAdapter(monitor: Monitor, inspector?: <T>(data: JsErrorData) => T) {
+export default function reactAdapter(monitor: Monitor, inspector?: <T>(data: RCErrorData) => T) {
   /**
    * React错误边界组件
    * 用于捕获React组件树中的JavaScript错误并进行上报
@@ -37,7 +37,6 @@ export default function reactAdapter(monitor: Monitor, inspector?: <T>(data: JsE
         hasError: false,
       };
     }
-
     /**
      * 静态方法，用于捕获子组件树中的JavaScript错误
      * @param error 错误对象
@@ -60,22 +59,22 @@ export default function reactAdapter(monitor: Monitor, inspector?: <T>(data: JsE
     componentDidCatch(error: Error) {
       // 创建错误数据并上报
       const errData = createJsErrorData(error, REPORT_TYPE.JS_ERROR);
-      // 生成错误UUID
-      const uuid = createErrorUuid(errData);
+
       // 应用数据检查器（如果提供）
       const res = inspector?.(errData) || errData;
       // 上报错误
-      monitor.report(REPORT_TYPE.REACT_ERROR, res, uuid);
+      monitor.report(REPORT_TYPE.REACT_ERROR, res);
     }
 
     /**
      * 渲染组件
      */
     render() {
+      const { fallback, children } = this.props;
       // 如果有错误，显示降级UI
       if (this.state.hasError) {
         return (
-          this.props.fallback ||
+          fallback ||
           React.createElement(
             'div',
             null,
@@ -86,7 +85,7 @@ export default function reactAdapter(monitor: Monitor, inspector?: <T>(data: JsE
       }
 
       // 正常渲染子组件
-      return this.props.children;
+      return children;
     }
   }
 

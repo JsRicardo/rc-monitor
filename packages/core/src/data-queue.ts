@@ -47,12 +47,12 @@ export class DataQueue<T extends ReportData> {
    * @returns 是否添加成功（如果队列已满则移除最旧数据）
    */
   enqueueUnique(item: T): boolean {
-    const { uuid } = item;
+    const { uuid } = item.data;
     if (!uuid) {
       return this.enqueue(item);
     }
 
-    if (this.queue.some(i => i.uuid === uuid)) {
+    if (this.queue.some(i => i.data.uuid === uuid)) {
       return false;
     }
 

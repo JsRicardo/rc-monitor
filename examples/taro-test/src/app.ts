@@ -8,7 +8,7 @@ import { onAppShow } from '@tarojs/taro';
 
 const monitor = Monitor.getMonitor({
   appId: '123',
-  endpoint: 'http://localhost:3000',
+  endpoint: 'http://localhost:3000/api/error',
   reporterType: 'xhr',
   frameworkInstance: Taro,
 });

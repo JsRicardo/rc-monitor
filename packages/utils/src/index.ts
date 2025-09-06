@@ -1,4 +1,5 @@
-import { parseError, createJsErrorData, isPromiseRejection, createErrorUuid } from './errorHandler';
+import createLogger from './createLogger';
+import { createJsErrorData, createErrorUuid } from './errorHandler/index';
 import getPlatform, { PLATFORM_TYPES, type PlatformType } from './getPlatform';
 import {
   imageSender,
@@ -7,23 +8,25 @@ import {
   xhrSender,
   type SenderOptions,
 } from './reportSender';
+import { ERROR_TYPE_METRIC, SUB_ERROR_TYPE_METRIC } from './types';
 
-import type { JsErrorData, ParsedError, RcErrorType } from './types';
+import type { ErrorTypeMetric, SubErrorTypeMetric, RCErrorData } from './types';
 
 export {
-  JsErrorData,
-  ParsedError,
-  RcErrorType,
+  createJsErrorData,
+  createErrorUuid,
+  RCErrorData,
+  ErrorTypeMetric,
+  SubErrorTypeMetric,
+  ERROR_TYPE_METRIC,
+  SUB_ERROR_TYPE_METRIC,
   SenderOptions,
   PlatformType,
   PLATFORM_TYPES,
-  isPromiseRejection,
-  createErrorUuid,
-  parseError,
-  createJsErrorData,
   getPlatform,
   imageSender,
   fetchSender,
   sendBeaconSender,
   xhrSender,
+  createLogger,
 };

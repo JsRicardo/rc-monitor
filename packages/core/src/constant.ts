@@ -13,4 +13,7 @@ export const REPORT_TYPE = {
   USER_BEHAVIOR: 'user-behavior',
   VUE_ERROR: 'vue-error',
   REACT_ERROR: 'react-error',
+  TARO_ERROR: 'taro-error',
+  UNI_ERROR: 'uni-error',
+  WEAPP_ERROR: 'weapp-error',
 } as const;

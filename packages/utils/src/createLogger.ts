@@ -8,7 +8,7 @@
  * @param debug 是否启用调试模式
  * @param prefix 日志前缀
  */
-export function createLogger(debug: boolean, prefix: string = 'Monitor') {
+export default function createLogger(debug: boolean, prefix: string = 'Monitor') {
   return (message: string, data?: any) => {
     if (debug) {
       console.log(`🚀🚀🚀%c[${prefix}] ${message}: `, 'color:green', data || '');

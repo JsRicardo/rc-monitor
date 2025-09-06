@@ -1,25 +1,23 @@
-import { Plugin, Monitor, REPORT_TYPE } from '@rc-monitor/core';
+import { Plugin, Monitor, REPORT_TYPE, ReportType } from '@rc-monitor/core';
 
-import type { PerformanceData, PerformancePluginOption, PerformanceObserverMap } from '../types';
+import { BasePluginOption } from './types';
 
-/**
- * 浏览器性能插件
- * 用于采集浏览器性能指标
- */
-export default class BasePlugin implements Plugin {
+export default class BasePlugin<T> implements Plugin {
   public name = '';
 
-  private monitor?: Monitor;
+  protected monitor?: Monitor;
 
-  private cleanupFns: (() => void)[] = [];
+  protected cleanupFns: (() => void)[] = [];
 
-  protected readonly observerMap?: PerformanceObserverMap;
+  protected readonly observerMap?: any;
 
-  constructor(private readonly options?: PerformancePluginOption) {}
+  protected reportType: ReportType = REPORT_TYPE.JS_ERROR;
 
-  private reporter<T>(data: PerformanceData<T>) {
+  constructor(protected readonly options?: T extends BasePluginOption ? T : undefined) {}
+
+  private reporter(data: any) {
     const res = this.options?.inspector?.(data) || data;
-    this.monitor?.report(REPORT_TYPE.PERFORMANCE, res);
+    this.monitor?.report(this.reportType, res);
   }
 
   private initialObservers() {

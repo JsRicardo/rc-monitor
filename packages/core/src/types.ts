@@ -47,10 +47,9 @@ export interface Plugin {
 export interface ReportData {
   /** 数据类型 */
   type: string;
-  /** 数据唯一ID */
-  uuid?: string;
+
   /** 数据内容 */
-  data: any;
+  data: Record<string, any>;
   /** 时间戳 */
   timestamp: number;
   /** 应用ID */

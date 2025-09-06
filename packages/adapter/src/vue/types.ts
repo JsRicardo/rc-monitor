@@ -1,5 +1,5 @@
 import { Monitor } from '@rc-monitor/core';
-import { JsErrorData } from '@rc-monitor/utils';
+import { type RCErrorData } from '@rc-monitor/utils';
 import { InjectionKey, App } from 'vue';
 
 export interface TrackParams {
@@ -23,7 +23,7 @@ export interface VueAdapterOptions {
   /** 是否全局注入monitor实例 */
   injectGlobal?: boolean;
   /** 自定义错误数据处理函数 */
-  errorInspector?: <T>(error: JsErrorData | TrackParams) => T;
+  errorInspector?: <T>(error: RCErrorData | TrackParams) => T;
   /** 自定义监控器注入的key */
   monitorInjectKey?: InjectionKey<Monitor>;
 }
