@@ -1,90 +1,31 @@
 // ES模块导入
 import { execSync, spawnSync } from 'child_process';
-import { readdirSync, statSync, readFileSync, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
-
-// 获取所有包列表
-function getPackages() {
-  const packagesDir = join(import.meta.dirname, '../packages');
-  return readdirSync(packagesDir).filter(item => {
-    const itemPath = join(packagesDir, item);
-    // 只返回目录，排除隐藏文件
-    return statSync(itemPath).isDirectory() && !item.startsWith('.');
-  });
-}
+import {
+  getPackages,
+  getPackageVersion,
+  incrementVersion,
+  hasChanges,
+  getSortedPackages,
+  showPackageList,
+  validatePackageNames,
+} from './utils.js';
 
 const packages = getPackages();
 
+// 包的依赖关系配置
+const dependencies = {
+  utils: [],
+  core: ['utils'],
+  adapter: ['core', 'utils'],
+  plugins: ['core', 'utils'],
+  'rc-monitor': ['core', 'adapter'],
+};
+
 // 包的依赖顺序（根据依赖关系排序，先发布依赖少的包）
 const getReleaseOrder = () => {
-  // 定义依赖关系
-  const dependencies = {
-    utils: [],
-    core: ['utils'],
-    adapter: ['core', 'utils'],
-    plugins: ['core', 'utils'],
-    'rc-monitor': ['core', 'adapter'],
-  };
-
-  // 构建依赖图并拓扑排序
-  const order = [];
-  const visited = new Set();
-
-  function visit(pkgName) {
-    if (visited.has(pkgName)) return;
-    visited.add(pkgName);
-
-    // 先访问依赖的包
-    const deps = dependencies[pkgName] || [];
-    for (const dep of deps) {
-      if (packages.includes(dep)) {
-        visit(dep);
-      }
-    }
-
-    order.push(pkgName);
-  }
-
-  // 对所有包进行拓扑排序
-  for (const pkgName of packages) {
-    visit(pkgName);
-  }
-
-  return order;
-};
-
-// 检查包是否有变更
-const hasChanges = pkgName => {
-  try {
-    const pkgDir = join(import.meta.dirname, `../packages/${pkgName}`);
-    const result = execSync(`git status --porcelain ${pkgDir}`, { encoding: 'utf-8' });
-    return result.trim().length > 0;
-  } catch (error) {
-    console.error(`Error checking changes for ${pkgName}:`, error);
-    return false;
-  }
-};
-
-// 获取包的当前版本
-const getPackageVersion = pkgName => {
-  const pkgPath = join(import.meta.dirname, `../packages/${pkgName}/package.json`);
-  const pkgJson = JSON.parse(readFileSync(pkgPath, 'utf-8'));
-  return pkgJson.version;
-};
-
-// 递增版本号
-const incrementVersion = (currentVersion, type = 'patch') => {
-  const [major, minor, patch] = currentVersion.split('.').map(Number);
-
-  switch (type) {
-    case 'major':
-      return `${major + 1}.0.0`;
-    case 'minor':
-      return `${major}.${minor + 1}.0`;
-    case 'patch':
-    default:
-      return `${major}.${minor}.${patch + 1}`;
-  }
+  return getSortedPackages(packages, dependencies);
 };
 
 // 更新包的版本号（如果需要）
@@ -101,11 +42,13 @@ const updatePackageVersion = (pkgName, version) => {
       arg => arg === '--major' || arg === '--minor' || arg === '--patch'
     );
 
+    let versionType = 'patch'; // 默认使用patch类型递增版本号
     if (versionTypeIndex !== -1) {
-      const versionType = args[versionTypeIndex].substring(2); // 去除'--'
-      pkgJson.version = incrementVersion(pkgJson.version, versionType);
-      console.log(`📈 Incremented ${pkgName} version to ${pkgJson.version}`);
+      versionType = args[versionTypeIndex].substring(2); // 去除'--'
     }
+
+    pkgJson.version = incrementVersion(pkgJson.version, versionType);
+    console.log(`📈 Incremented ${pkgName} version to ${pkgJson.version}`);
   }
 
   // 确保有publishConfig配置
@@ -435,7 +378,7 @@ function publishSpecific(pkgNames) {
   console.log(`🎯 Publishing specific package(s): ${pkgNames.join(', ')}`);
 
   // 验证包名是否存在
-  const invalidPackages = pkgNames.filter(pkgName => !packages.includes(pkgName));
+  const invalidPackages = validatePackageNames(pkgNames, packages);
   if (invalidPackages.length > 0) {
     console.error(`❌ Unknown package(s): ${invalidPackages.join(', ')}`);
     console.error(`Available packages: ${packages.join(', ')}`);
@@ -483,6 +426,7 @@ function showHelp() {
   console.log(`  node scripts/release.js --package core,utils`);
   console.log(`  node scripts/release.js --all --patch`);
   console.log(`  node scripts/release.js --changed --minor`);
+  console.log(`  node scripts/release.js --package core --dry-run`);
 }
 
 // 主函数
@@ -505,8 +449,7 @@ function main() {
 
   // 列出所有包
   if (args.includes('--list-packages')) {
-    console.log('Available packages:', packages.join(', '));
-    console.log('Release order:', getReleaseOrder().join(', '));
+    showPackageList(packages, dependencies);
     return;
   }
 

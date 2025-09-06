@@ -1,32 +1,18 @@
 #!/usr/bin/env node
 
 import { spawn } from 'child_process';
-import { readdirSync, statSync } from 'fs';
-import { join } from 'path';
-
-// 自动获取packages目录下的所有包
-const getPackages = () => {
-  const packagesDir = join(import.meta.dirname, '../packages');
-  return readdirSync(packagesDir).filter(item => {
-    const itemPath = join(packagesDir, item);
-    // 只返回目录，排除隐藏文件
-    return statSync(itemPath).isDirectory() && !item.startsWith('.');
-  });
-};
+import { getPackages, showPackageList, validatePackageNames } from './utils.js';
 
 const packages = getPackages();
 
 // 存储所有正在运行的子进程
 const runningProcesses = [];
 
-// 清理函数：终止所有正在运行的子进程
 function cleanup() {
-  console.log('Cleaning up and terminating all processes...');
-  runningProcesses.forEach(proc => {
-    if (proc && !proc.killed) {
-      proc.kill();
-    }
-  });
+  console.log('\nDev script is exiting.');
+  console.log(
+    'Note: You may need to manually close the individual terminal windows for each package.'
+  );
   process.exit(0);
 }
 
@@ -35,13 +21,17 @@ process.on('SIGINT', cleanup);
 process.on('SIGTERM', cleanup);
 
 function devPackage(pkgName) {
-  console.log(`Starting dev mode for ${pkgName}...`);
+  console.log(`Starting dev mode for ${pkgName} in a new terminal window...`);
   const command = `npx tsup packages/${pkgName}/src/index.ts --config tsup.config.ts --out-dir packages/${pkgName}/dist --watch`;
 
-  const proc = spawn('cmd.exe', ['/c', command], {
-    stdio: 'inherit',
-    shell: true,
-  });
+  const proc = spawn(
+    'cmd.exe',
+    ['/c', `start "Dev: ${pkgName}" cmd /k "echo Running dev for ${pkgName}... && ${command}"`],
+    {
+      stdio: 'inherit',
+      shell: true,
+    }
+  );
 
   runningProcesses.push(proc);
 
@@ -51,14 +41,14 @@ function devPackage(pkgName) {
 
   proc.on('exit', code => {
     if (code !== 0) {
-      console.error(`Dev mode for ${pkgName} exited with code ${code}`);
+      console.error(`Process to start dev mode for ${pkgName} exited with code ${code}`);
     }
   });
 }
 
 function devAll() {
-  console.log('Starting dev mode for all packages in parallel...');
-  console.log('(Press Ctrl+C to stop all processes)');
+  console.log('Starting dev mode for all packages in separate terminal windows...');
+  console.log('Note: You need to manually close each terminal window to stop the processes.');
 
   // 并行启动所有包的开发模式
   packages.forEach(pkgName => {
@@ -70,7 +60,7 @@ const args = process.argv.slice(2);
 
 // 检查是否是列出包的命令
 if (args.includes('--list-packages')) {
-  console.log('Available packages:', packages.join(', '));
+  showPackageList(packages);
   process.exit(0);
 }
 
@@ -80,8 +70,13 @@ if (args.includes('--help') || args.includes('-h')) {
   console.log('Options:');
   console.log('  --list-packages  List all available packages');
   console.log('  --help, -h       Show this help message');
-  console.log('  No arguments     Start dev mode for all packages in parallel');
-  console.log('  Package names    Start dev mode for specified packages in parallel');
+  console.log('  No arguments     Start dev mode for all packages in separate terminal windows');
+  console.log(
+    '  Package names    Start dev mode for specified packages in separate terminal windows'
+  );
+  console.log(
+    'Note: Each package will run in its own terminal window. You need to manually close these windows to stop the processes.'
+  );
   console.log('Available packages:', packages.join(', '));
   process.exit(0);
 }
@@ -91,7 +86,7 @@ if (args.length === 0) {
   devAll();
 } else {
   // 检查参数中是否包含有效的包名
-  const invalidPackages = args.filter(pkgName => !packages.includes(pkgName));
+  const invalidPackages = validatePackageNames(args, packages);
 
   if (invalidPackages.length > 0) {
     console.error(`Unknown package(s): ${invalidPackages.join(', ')}`);
@@ -99,9 +94,11 @@ if (args.length === 0) {
     process.exit(1);
   }
 
-  // 启动指定的多个包的开发模式（并行）
+  // 启动指定的多个包的开发模式
   console.log(`Starting dev mode for specified packages: ${args.join(', ')}`);
-  console.log('(Press Ctrl+C to stop all processes)');
+  console.log(
+    'Note: Each package will run in its own terminal window. You need to manually close these windows to stop the processes.'
+  );
 
   args.forEach(pkgName => {
     devPackage(pkgName);
