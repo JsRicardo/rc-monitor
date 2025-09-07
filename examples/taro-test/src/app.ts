@@ -18,6 +18,17 @@ monitor.use(new TaroErrorPlugin());
 // 使用行为监控插件
 monitor.use(new TaroBehaviorPlugin());
 
+Taro.getPerformance()
+  .createObserver(function (entryList) {
+    entryList.getEntries().forEach(entry => {
+      console.error('🚀 ~ app.ts:24 ~ entry:', entry);
+    });
+  })
+  // @ts-ignore
+  .observe({
+    entryTypes: ['navigation', 'script', 'render'],
+  });
+
 onAppShow(res => {
   // Taro.getCurrentInstance().router?.path;
   console.error('onAppShow', Taro.getCurrentInstance());

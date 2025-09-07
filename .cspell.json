@@ -7,6 +7,7 @@
     "chunkhash",
     "commitizen",
     "commitlint",
+    "Cornsilk",
     "cross-platform",
     "cspell",
     "eslint",
@@ -15,6 +16,7 @@
     "jdrn",
     "lintstaged",
     "longtask",
+    "Miniprogram",
     "monitor",
     "npmignore",
     "performance",
@@ -35,6 +37,7 @@
     "utils",
     "Vite",
     "WEAPP",
+    "Wechat",
     "workspace"
   ],
   "ignoreWords": [
@@ -55,7 +58,8 @@
     "*.log",
     "*.min.js",
     "package-lock.json",
-    "pnpm-lock.yaml"
+    "pnpm-lock.yaml",
+    "*.d.ts"
   ],
   "dictionaries": ["typescript", "node", "softwareTerms"],
   "patterns": [

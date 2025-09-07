@@ -10,6 +10,9 @@ export const PERFORMANCE_NAME = {
   DOM_CONTENT_LOADED: 'domContentLoaded',
   LOAD: 'load',
   ENTRIES: 'entries',
+  REQUEST: 'request',
+  NAVIGATION: 'navigation',
+  PAINT: 'paint',
 } as const;
 
 export const PERFORMANCE_METRIC = {
@@ -17,6 +20,7 @@ export const PERFORMANCE_METRIC = {
   RESOURCE: 'resource',
   PAINT: 'paint',
   LONG_TASK: 'longtask',
+  REQUEST: 'request',
 } as const;
 
 export const PERFORMANCE_UNIT = {
