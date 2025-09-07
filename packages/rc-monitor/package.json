@@ -1,6 +1,6 @@
 {
   "name": "@rc-monitor/rc-monitor",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "监控SDK核心模块 - 主包",
   "main": "dist/index.js",
   "module": "dist/index.js",

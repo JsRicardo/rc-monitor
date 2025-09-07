@@ -21,21 +21,23 @@ export default function observeEntries(reporter: PerformanceReporter) {
   const WEAPP = (globalThis as any).__Monitor_Framework__;
 
   try {
-    WEAPP.getPerformance()
-      .createObserver(function (entryList: any) {
-        entryList.getEntries().forEach((entry: IEntry) => {
-          reporter({
-            name: PERFORMANCE_NAME.NAVIGATION,
-            metric: PERFORMANCE_METRIC.NAVIGATION,
-            value: entry.duration,
-            unit: PERFORMANCE_UNIT.MS,
-            extras: entry,
-          });
+    const performanceObserver = WEAPP.getPerformance().createObserver(function (entryList: any) {
+      entryList.getEntries().forEach((entry: IEntry) => {
+        reporter({
+          name: PERFORMANCE_NAME.NAVIGATION,
+          metric: PERFORMANCE_METRIC.NAVIGATION,
+          value: entry.duration,
+          unit: PERFORMANCE_UNIT.MS,
+          extras: entry,
         });
-      })
-      .observe({
-        entryTypes: ['navigation'],
       });
+    });
+
+    performanceObserver.observe({ entryTypes: ['navigation'] });
+
+    return () => {
+      performanceObserver.disconnect();
+    };
   } catch (error) {
     console.error('observeNavigation error', error);
   }

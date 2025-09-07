@@ -25,23 +25,25 @@ const NAME_2_PERFORMANCE_NAME: Record<string, PerformanceName> = {
 export default function observeEntries(reporter: PerformanceReporter) {
   const Taro = (globalThis as any).__Monitor_Framework__;
   try {
-    Taro.getPerformance()
-      .createObserver(function (entryList: any) {
-        entryList.getEntries().forEach((entry: IEntry) => {
-          const { duration, name } = entry;
+    const performanceObserver = Taro.getPerformance().createObserver(function (entryList: any) {
+      entryList.getEntries().forEach((entry: IEntry) => {
+        const { duration, name } = entry;
 
-          reporter({
-            name: NAME_2_PERFORMANCE_NAME[name] || 'unknown',
-            metric: PERFORMANCE_METRIC.PAINT,
-            value: duration,
-            unit: PERFORMANCE_UNIT.MS,
-            extras: entry,
-          });
+        reporter({
+          name: NAME_2_PERFORMANCE_NAME[name] || 'unknown',
+          metric: PERFORMANCE_METRIC.PAINT,
+          value: duration,
+          unit: PERFORMANCE_UNIT.MS,
+          extras: entry,
         });
-      })
-      .observe({
-        entryTypes: ['render'],
       });
+    });
+
+    performanceObserver.observe({ entryTypes: ['render'] });
+
+    return () => {
+      performanceObserver.disconnect();
+    };
   } catch (error) {
     console.error('observeRender error', error);
   }

@@ -101,7 +101,7 @@ export default function observeRequest(reporter: PerformanceReporter) {
     (globalThis as any).wx.request = wrappedRequest;
   }
 
-  return function cleanup() {
+  return () => {
     if (WEAPP) {
       WEAPP.request = originalRequest;
     } else if ((globalThis as any).wx) {
