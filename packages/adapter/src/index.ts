@@ -1,6 +1,4 @@
 // React适配器
-export { default as ReactAdapter } from './reactAdapter';
-export type { ErrorBoundaryProps, ErrorBoundaryState } from './reactAdapter';
+export * as ReactAdapter from './react';
 
-export { default as Vue3Adapter, useRCMonitor } from './vue';
-export type { VueAdapterOptions } from './vue/types';
+export * as Vue3Adapter from './vue';

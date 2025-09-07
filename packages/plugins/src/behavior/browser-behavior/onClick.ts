@@ -25,7 +25,6 @@ export default function onClick(reporter: UserBehaviorReporter) {
           targetTagName: elementTarget?.tagName?.toLowerCase() || '',
           targetId: elementTarget?.id || '',
           targetClass: elementTarget?.classList?.value || '',
-          // 可以根据需要添加更多有用的信息
         },
       });
     };

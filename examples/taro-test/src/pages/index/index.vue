@@ -1,26 +1,29 @@
 <template>
-  <view class="index">
-    <text>{{ msg }}</text>
-    <view
-      @tap="
-        () => {
-          Taro.navigateTo({
-            url: '/pages/second/index?name=ricardo',
-          });
-        }
-      "
-      >跳转到第二页</view
-    >
-    <image
-      src="https://res.wx.qq.com/op_res/Lp2o6AYPJnHXXwjri_lgIahGjwHsYVsIpw9Y7dWUhPVwnuDfmxpg7l24O-rdSHIhJAz7yAKSfcP7vQZ3EaMOLA"
-      mode="aspectFill"
-    />
-  </view>
+  <WithMonitor>
+    <view class="index">
+      <text class="monitor-text" @tap="e => console.log(e)">{{ msg }}</text>
+      <view
+        @tap="
+          () => {
+            Taro.navigateTo({
+              url: '/pages/second/index?name=ricardo',
+            });
+          }
+        "
+        >跳转到第二页</view
+      >
+      <image
+        src="https://res.wx.qq.com/op_res/Lp2o6AYPJnHXXwjri_lgIahGjwHsYVsIpw9Y7dWUhPVwnuDfmxpg7l24O-rdSHIhJAz7yAKSfcP7vQZ3EaMOLA"
+        mode="aspectFill"
+      />
+    </view>
+  </WithMonitor>
 </template>
 
 <script setup>
 import { onMounted, ref } from 'vue';
 import Taro, { getCurrentPages, getDeviceInfo } from '@tarojs/taro';
+import WithMonitor from '../../components/withMonitor';
 
 const msg = ref('Hello world');
 

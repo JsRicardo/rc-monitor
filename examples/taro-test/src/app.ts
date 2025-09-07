@@ -1,7 +1,7 @@
 import { createApp } from 'vue';
 
 import './app.less';
-import { Monitor } from '@rc-monitor/rc-monitor';
+import { Monitor, Vue3Adapter } from '@rc-monitor/rc-monitor';
 import { TaroErrorPlugin, TaroBehaviorPlugin } from '@rc-monitor/plugins';
 import Taro from '@tarojs/taro';
 import { onAppShow } from '@tarojs/taro';
@@ -18,17 +18,6 @@ monitor.use(new TaroErrorPlugin());
 // 使用行为监控插件
 monitor.use(new TaroBehaviorPlugin());
 
-Taro.getPerformance()
-  .createObserver(function (entryList) {
-    entryList.getEntries().forEach(entry => {
-      console.error('🚀 ~ app.ts:24 ~ entry:', entry);
-    });
-  })
-  // @ts-ignore
-  .observe({
-    entryTypes: ['navigation', 'script', 'render'],
-  });
-
 onAppShow(res => {
   // Taro.getCurrentInstance().router?.path;
   console.error('onAppShow', Taro.getCurrentInstance());
@@ -40,5 +29,15 @@ const App = createApp({
   },
   // 入口组件不需要实现 render 方法，即使实现了也会被 taro 所覆盖
 });
+
+App.use(
+  Vue3Adapter(monitor, {
+    provide: true,
+    errorInspector: (data: any) => {
+      console.log(data);
+      return data;
+    },
+  })
+);
 
 export default App;
