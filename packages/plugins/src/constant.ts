@@ -32,6 +32,8 @@ export const PERFORMANCE_UNIT = {
 export const USER_BEHAVIOR_ACTION = {
   CLICK: 'click',
   INPUT: 'input',
+  TAP: 'tap',
+  CHANGE: 'change',
   SCROLL: 'scroll',
   PAGE_CHANGE: 'pageChange',
   PV: 'pv',

@@ -2,16 +2,7 @@
   <WithMonitor>
     <view class="index">
       <text class="monitor-text" @tap="e => console.log(e)">{{ msg }}</text>
-      <view
-        @tap="
-          () => {
-            Taro.navigateTo({
-              url: '/pages/second/index?name=ricardo',
-            });
-          }
-        "
-        >跳转到第二页</view
-      >
+      <view @tap="() => handleClick(123)">跳转到第二页</view>
       <image
         src="https://res.wx.qq.com/op_res/Lp2o6AYPJnHXXwjri_lgIahGjwHsYVsIpw9Y7dWUhPVwnuDfmxpg7l24O-rdSHIhJAz7yAKSfcP7vQZ3EaMOLA"
         mode="aspectFill"
@@ -26,6 +17,12 @@ import Taro, { getCurrentPages, getDeviceInfo } from '@tarojs/taro';
 import WithMonitor from '../../components/withMonitor';
 
 const msg = ref('Hello world');
+
+function handleClick(data) {
+  // Taro.navigateTo({
+  //   url: '/pages/second/index?name=ricardo',
+  // });
+}
 
 onMounted(() => {
   console.log('taro', Taro);

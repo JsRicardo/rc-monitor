@@ -1,9 +1,9 @@
 import { defineComponent, h } from 'vue';
-import { useRCMonitor } from '@rc-monitor/rc-monitor';
+import { Vue3Adapter } from '@rc-monitor/rc-monitor';
 
 // 使用defineComponent创建组件
 export default /*#__PURE__*/ defineComponent((props, { slots }) => {
-  const monitor = useRCMonitor();
+  const monitor = Vue3Adapter.useRCMonitor();
 
   const handleTap = (e: any, v) => {
     console.error('🚀 ~ withMonitor.ts:26 ~ handleTap ~ e:', e, v);

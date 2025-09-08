@@ -23,6 +23,35 @@ onAppShow(res => {
   console.error('onAppShow', Taro.getCurrentInstance());
 });
 
+declare namespace WechatMiniprogram.Page {
+  interface Constructor {
+    (options: Record<string, any>): void;
+  }
+}
+
+declare let Page: WechatMiniprogram.Page.Constructor;
+
+const OriginPage = Page;
+
+Page = function (options) {
+  const OriginEventHandle = options.eh;
+
+  options.eh = function () {
+    const params = [...arguments];
+    const event = params[0];
+    const observeEventList = ['click', 'tap', 'input', 'change'];
+
+    if (observeEventList.includes(event?.type)) {
+      console.log(event);
+      console.log(Taro.getCurrentInstance());
+    }
+
+    OriginEventHandle(...params);
+  };
+
+  OriginPage(options);
+};
+
 const App = createApp({
   onShow(options) {
     console.log('App onShow.');
@@ -31,7 +60,7 @@ const App = createApp({
 });
 
 App.use(
-  Vue3Adapter(monitor, {
+  Vue3Adapter.Vue3Adapter(monitor, {
     provide: true,
     errorInspector: (data: any) => {
       console.log(data);
