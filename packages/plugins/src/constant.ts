@@ -39,6 +39,14 @@ export const USER_BEHAVIOR_ACTION = {
   PV: 'pv',
 } as const;
 
+export const FRAMEWORK_USER_BEHAVIOR_ACTION = {
+  CLICK: 'click',
+  INPUT: 'input',
+  TAP: 'tap',
+  CHANGE: 'change',
+  SCROLL: 'scroll',
+} as const;
+
 // 平台插件名称常量
 export const PLUGIN_NAMES = {
   BROWSER_ERROR: 'browser-error',
