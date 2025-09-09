@@ -1,4 +1,5 @@
 import {
+  FRAMEWORK_USER_BEHAVIOR_ACTION,
   PERFORMANCE_METRIC,
   PERFORMANCE_NAME,
   PERFORMANCE_UNIT,
@@ -80,3 +81,14 @@ export interface BasePluginOption {
   metrics?: string[];
   inspector?: (data: any) => void;
 }
+
+export type FrameworkUserAction =
+  (typeof FRAMEWORK_USER_BEHAVIOR_ACTION)[keyof typeof FRAMEWORK_USER_BEHAVIOR_ACTION];
+
+export type FrameworkBehaviorPluginOptions = Pick<BehaviorPluginOption, 'inspector'> & {
+  metrics?: {
+    pv?: boolean;
+    pageChange?: boolean;
+    userAction?: FrameworkUserAction[];
+  };
+};

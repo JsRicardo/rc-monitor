@@ -15,12 +15,12 @@ export default class BasePlugin<T> implements Plugin {
 
   constructor(protected readonly options?: T extends BasePluginOption ? T : undefined) {}
 
-  private reporter(data: any) {
+  protected reporter(data: any) {
     const res = this.options?.inspector?.(data) || data;
     this.monitor?.report(this.reportType, res);
   }
 
-  private initialObservers() {
+  protected initialObservers() {
     const performanceMetrics = this.options?.metrics || Array.from(this.observerMap!.keys());
 
     performanceMetrics.forEach(metric => {

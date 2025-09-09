@@ -1,4 +1,8 @@
-import { UserBehaviorAction, UserBehaviorReporter } from '../../types';
+import { debounce } from 'lodash-es';
+
+import { FRAMEWORK_USER_BEHAVIOR_ACTION } from '../../constant';
+
+import type { FrameworkUserAction, UserBehaviorAction, UserBehaviorReporter } from '../../types';
 
 declare namespace WechatMiniprogram.Page {
   interface Constructor {
@@ -8,17 +12,19 @@ declare namespace WechatMiniprogram.Page {
 
 declare let Page: WechatMiniprogram.Page.Constructor;
 
-export default function onEvent(action: UserBehaviorAction) {
+export default function onEvent(actions?: FrameworkUserAction[]) {
   const Taro = (globalThis as any).__Monitor__Framework__;
 
-  function reportData(reporter: UserBehaviorReporter, event: any) {
+  const defaultActions = actions || Object.values(FRAMEWORK_USER_BEHAVIOR_ACTION);
+
+  function reportData(reporter: UserBehaviorReporter, event: any, action?: FrameworkUserAction) {
     const { x, y } = event?.detail || {};
     const { anchorTargetText } = event?._relatedInfo || {};
     const instance = Taro.getCurrentInstance();
     const { route, $taroPath, config } = instance?.page || {};
 
     reporter({
-      action,
+      action: action as UserBehaviorAction,
       url: route || 'unknown',
       timestamp: Date.now(),
       eventType: event?.type || 'unknown',
@@ -50,8 +56,14 @@ export default function onEvent(action: UserBehaviorAction) {
         const params = [...arguments];
         const event = params[0];
 
-        if (event?.type === action) {
-          reportData(reporter, event);
+        if (defaultActions.includes(event?.type as FrameworkUserAction)) {
+          if (event?.type === FRAMEWORK_USER_BEHAVIOR_ACTION.INPUT) {
+            debounce(() => {
+              reportData(reporter, event, event?.type);
+            }, 300);
+          } else {
+            reportData(reporter, event, event?.type);
+          }
         }
 
         OriginEventHandle(...params);
