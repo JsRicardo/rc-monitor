@@ -102,7 +102,7 @@ const publishedPackageVersions = new Map();
  * @param {string} pkgName 包名
  */
 function convertFileDependenciesToVersion(pkgName) {
-  console.log(`🔄 Converting file dependencies to version dependencies for ${pkgName}...`);
+  console.log(`🔄 Converting workspace dependencies to version dependencies for ${pkgName}...`);
 
   const pkgPath = join(import.meta.dirname, `../packages/${pkgName}/package.json`);
   const pkgJson = JSON.parse(readFileSync(pkgPath, 'utf-8'));
@@ -114,12 +114,12 @@ function convertFileDependenciesToVersion(pkgName) {
   // 检查dependencies
   if (pkgJson.dependencies) {
     for (const [depName, fileVersion] of Object.entries(pkgJson.dependencies)) {
-      if (typeof fileVersion === 'string' && fileVersion.startsWith('file:')) {
+      if (typeof fileVersion === 'string' && fileVersion.startsWith('workspace:')) {
         hasFileDeps = true;
         fileDeps[depName] = fileVersion;
 
         // 找到对应的包名
-        const depPkgName = fileVersion.replace('file:../', '').replace(/\\/g, '/');
+        const depPkgName = depName.replace('@rc-monitor', '');
 
         // 优先使用已发布的最新版本，如果没有则使用本地版本
         let version = publishedPackageVersions.get(depPkgName);
@@ -132,28 +132,6 @@ function convertFileDependenciesToVersion(pkgName) {
       }
     }
   }
-
-  // 检查devDependencies
-  // if (pkgJson.devDependencies) {
-  //   for (const [depName, fileVersion] of Object.entries(pkgJson.devDependencies)) {
-  //     if (typeof fileVersion === 'string' && fileVersion.startsWith('file:')) {
-  //       hasFileDeps = true;
-  //       fileDeps[depName] = fileVersion;
-
-  //       // 找到对应的包名
-  //       const depPkgName = fileVersion.replace('file:../', '').replace(/\\/g, '/');
-
-  //       // 优先使用已发布的最新版本，如果没有则使用本地版本
-  //       let version = publishedPackageVersions.get(depPkgName);
-  //       if (!version) {
-  //         version = getPackageVersion(depPkgName);
-  //       }
-  //       pkgJson.devDependencies[depName] = version;
-
-  //       console.log(`  - ${depName}: ${fileVersion} -> ${version}`);
-  //     }
-  //   }
-  // }
 
   // 如果有file依赖，保存原始信息并更新package.json
   if (hasFileDeps) {
