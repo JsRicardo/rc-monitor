@@ -25,8 +25,6 @@ export interface MonitorConfig {
   maxCacheSize?: number;
   /** 是否启用调试模式 */
   debug?: boolean;
-  /** 数据格式自定义函数 */
-  inspector?: <T>(type: string, data: any) => T;
   /** 限制错误重试次数 */
   retryMax?: number;
   /** 上报接口配置 */
@@ -44,12 +42,13 @@ export interface Plugin {
   uninstall?(): void;
 }
 
+export type ReportDataEntity = { uuid?: string } & Record<string, any>;
+
 export interface ReportData {
   /** 数据类型 */
   type: string;
-
   /** 数据内容 */
-  data: Record<string, any>;
+  data: ReportDataEntity;
   /** 时间戳 */
   timestamp: number;
   /** 应用ID */

@@ -7,6 +7,9 @@ import { ReportData } from './types';
 export class DataQueue<T extends ReportData> {
   /** 数据队列 */
   private queue: T[] = [];
+
+  private uniqueUuid: Set<string> = new Set();
+
   /** 最大队列长度 */
   private maxSize: number;
 
@@ -28,7 +31,12 @@ export class DataQueue<T extends ReportData> {
       this.queue.shift(); // 移除最旧的数据
     }
 
+    if (item.data.uuid) {
+      this.uniqueUuid.add(item.data.uuid);
+    }
+
     this.queue.push(item);
+
     return true;
   }
 
@@ -52,7 +60,7 @@ export class DataQueue<T extends ReportData> {
       return this.enqueue(item);
     }
 
-    if (this.queue.some(i => i.data.uuid === uuid)) {
+    if (this.uniqueUuid.has(uuid)) {
       return false;
     }
 
