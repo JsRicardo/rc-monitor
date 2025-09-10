@@ -7,7 +7,7 @@ import { createLogger } from '@rc-monitor/utils';
 import { DataQueue } from './data-queue';
 import { DefaultPluginManager } from './plugin-manager';
 import { FetchReportService } from './report-service';
-import { MonitorConfig, Plugin, ReportData, ReportType } from './types';
+import { MonitorConfig, Plugin, ReportData, ReportDataEntity, ReportType } from './types';
 
 type ReportDataExtra = ReportData & { retryCount?: number };
 
@@ -86,7 +86,7 @@ export class Monitor {
    * @param type 数据类型
    * @param data 数据内容
    */
-  public report(type: ReportType, data: any): void {
+  public report(type: ReportType, data: ReportDataEntity): void {
     this.log('report data type: ', type);
     this.log('report data: ', data);
 
@@ -100,12 +100,9 @@ export class Monitor {
       return;
     }
 
-    // 拦截器格式化数据
-    const formattedData = this.config.inspector?.(type, data) || data;
-
     const reportData: ReportData = {
       type,
-      data: formattedData,
+      data: data,
       timestamp: Date.now(),
       appId: this.config.appId,
     };
@@ -137,10 +134,11 @@ export class Monitor {
     this.reportService.sendData(dataToReport).catch(error => {
       this.log('Data report failed, re-queuing data', error);
       // 上报失败，重新加入队列 限制重试次数 3次 如果失败则丢弃数据
+      // TODO: 重试时可能会丢失本该上传的数据
       dataToReport.forEach(data => {
         const retryCount = data.retryCount || 0;
         if (retryCount > this.config.retryMax!)
-          this.dataQueue.enqueueUnique({
+          this.dataQueue.enqueue({
             ...data,
             retryCount: retryCount + 1,
           });
