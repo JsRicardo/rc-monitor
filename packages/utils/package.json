@@ -1,6 +1,6 @@
 {
   "name": "@rc-monitor/utils",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "监控SDK核心模块 工具包",
   "main": "dist/index.js",
   "module": "dist/index.js",

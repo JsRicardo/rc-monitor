@@ -1,5 +1,5 @@
 import createLogger from './createLogger';
-import { createJsErrorData, createErrorUuid } from './errorHandler/index';
+import { createJsErrorData, createErrorUuid, createResourceErrorData } from './errorHandler/index';
 import getPlatform, { PLATFORM_TYPES, type PlatformType } from './getPlatform';
 import {
   imageSender,
@@ -15,6 +15,7 @@ import type { ErrorTypeMetric, SubErrorTypeMetric, RCErrorData } from './types';
 export {
   createJsErrorData,
   createErrorUuid,
+  createResourceErrorData,
   RCErrorData,
   ErrorTypeMetric,
   SubErrorTypeMetric,

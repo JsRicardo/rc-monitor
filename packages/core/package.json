@@ -1,6 +1,6 @@
 {
   "name": "@rc-monitor/core",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "监控SDK核心模块 - 提供初始化、数据上传、削峰限流、插件注册等基础功能",
   "main": "dist/index.js",
   "module": "dist/index.js",
