@@ -59,7 +59,8 @@
     "*.min.js",
     "package-lock.json",
     "pnpm-lock.yaml",
-    "*.d.ts"
+    "*.d.ts",
+    "examples"
   ],
   "dictionaries": ["typescript", "node", "softwareTerms"],
   "patterns": [

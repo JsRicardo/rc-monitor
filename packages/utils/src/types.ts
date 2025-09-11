@@ -38,6 +38,10 @@ export interface RCErrorData {
   errorType: ErrorTypeMetric;
   /** 子错误类型 */
   subErrorType?: SubErrorTypeMetric;
+  /** 资源路经 */
+  url?: string;
+  /** 页面路经 */
+  path?: string;
   /** 文件名 */
   filename?: string;
   /** 行号 */

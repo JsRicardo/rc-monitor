@@ -4,9 +4,35 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RC-Monitor 浏览器错误测试</title>
-    <script src="http://github.com/xxxx.js"></script>
-    <!-- 通过unpkg引入axios -->
-    <script src="https://unpkg.com/axios@1.6.2/dist/axios.min.js"></script>
+    <script src="./errparser.js"></script>
+    <script>
+      window.addEventListener(
+        'error',
+        function (e) {
+          if (e.target && (e.target.src || e.target.href)) {
+            console.log(e);
+          }
+        },
+        true
+      );
+
+      window.addEventListener(
+        'error',
+        function (e) {
+          if (e.target && e.error) {
+            console.log(e);
+          }
+        },
+        true
+      );
+      window.addEventListener(
+        'unhandledrejection',
+        e => {
+          console.log(window.ErrorStackParser.parse(e.reason));
+        },
+        true
+      );
+    </script>
     <style>
       body {
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -97,6 +123,7 @@
   <body>
     <div class="container">
       <h1>RC-Monitor 浏览器错误测试</h1>
+      <img src="https://github.com/2.png" alt="" />
 
       <div class="test-section">
         <h3>JavaScript 运行时错误测试</h3>
@@ -136,11 +163,13 @@
       </div>
     </div>
 
-    <script src="../../packages/rc-monitor/dist/index.cjs"></script>
-    <script src="../../packages/utils/dist/index.cjs"></script>
-    <script src="../../packages/plugins/dist/index.cjs"></script>
-
-    <script>
+    <!-- <script type="module">
+      import { Monitor } from '../../packages/rc-monitor/dist/index.cjs';
+      import {
+        BrowserErrorPlugin,
+        BrowserBehaviorPlugin,
+        BrowserPerformancePlugin,
+      } from '../../packages/plugins/dist/index.cjs';
       const monitor = Monitor.getMonitor({
         appId: '123',
         endpoint: 'http://localhost:3000/api/error',
@@ -150,6 +179,9 @@
       monitor.use(new BrowserErrorPlugin());
       monitor.use(new BrowserBehaviorPlugin({ metrics: ['input'] }));
       monitor.use(new BrowserPerformancePlugin({ metrics: ['lcp', 'entries'] }));
+    </script> -->
+
+    <script>
       // 自定义控制台输出
       function logToConsole(message, type = 'info') {
         const consoleElement = document.getElementById('console');
@@ -287,5 +319,6 @@
 
       logToConsole('RC-Monitor 初始化完成，开始测试...', 'success');
     </script>
+    <script src="http://github.com/xxxx.js"></script>
   </body>
 </html>
